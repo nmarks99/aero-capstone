@@ -1,5 +1,7 @@
 # Custom ignores here
-
+out.png
+out.jpg
+out/
 
 
 
