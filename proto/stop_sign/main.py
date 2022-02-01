@@ -22,8 +22,8 @@ detected = cascade.detectMultiScale(img, 1.1, 4)
 for (x,y,w,h) in detected:
     cv2.rectangle(img,(x,y), (x+w,y+h), (255,0,0), 5)
 
-# Save the result 
-cv2.imwrite('./out/out.png',img)
+# Save the result
+cv2.imwrite('./out.png',img)
 tf = time.time()
 elapsed = tf-t0
 print('\nDone. Result saved to out.png')
