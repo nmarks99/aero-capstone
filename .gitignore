@@ -1,6 +1,7 @@
 # Custom ignores here
 out.png
 out.jpg
+out
 out/
 OS_img/
 
