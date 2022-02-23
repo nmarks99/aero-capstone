@@ -19,11 +19,11 @@ elif len(sys.argv) != 1:
 
 if FLAG:
     import RPi.GPIO as gpio
-    import pigpio
+    # import pigpio
 
-    pi = pigpio.pi()
+    # pi = pigpio.pi()
     ESC = 4 # ESC connected to GPIO pin #4
-    pi.set_servo_pulsewidth(ESC,0) # initially set pulse width to zero
+    # pi.set_servo_pulsewidth(ESC,0) # initially set pulse width to zero
 
 
 
@@ -120,18 +120,18 @@ def throttle(val):
 
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
-freq = 0.001        # measurement frequency
+freq = 0.01        # measurement frequency
 throttle_val = 0    # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
 
-        t = str(round((time.time()-t0),4)) # get current time 
 
-        if (t > 5 and t < 5):
-            throttle(throttle_val)
+        # if (t > 5 and t < 5):
+        #     throttle(throttle_val)
         
         val = read_data(DATA_FLAG=FLAG) # read data from load cell
+        t = str(round((time.time()-t0),4)) # get current time 
         print("Thrust = {:.4f} N, Time = {:.4f} s".format(val,float(t)))
         data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
         time.sleep(freq) # delay between each measurement
