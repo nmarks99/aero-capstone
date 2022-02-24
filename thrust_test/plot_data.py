@@ -35,6 +35,7 @@ with open(dataPath,"r") as f:
         time.append(float(line[1]))
         
 force = sig.medfilt(force,5)
+force = sig.medfilt(force,5)
 
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(10,7))

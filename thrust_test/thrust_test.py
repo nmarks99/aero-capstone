@@ -64,7 +64,7 @@ def read_data(DATA_FLAG):
             
         gpio.output(SCK,1)
         Count=Count^0x800000
-        Count=Count-8286589
+        Count=Count-8276863
         Count=Count/divisor
 
         gpio.output(SCK,0)
@@ -128,7 +128,7 @@ try:
 
         t = round((time.time()-t0),4) # get current time 
 
-        if (t > 5 and t < 6):
+        if (t > 5):
             throttle(throttle_val)
         
         val = read_data(DATA_FLAG=FLAG) # read data from load cell
@@ -139,3 +139,4 @@ try:
 
 except KeyboardInterrupt:
     write_to_file(data_arr)
+    throttle(0.0)
