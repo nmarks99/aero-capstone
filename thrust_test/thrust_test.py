@@ -121,7 +121,7 @@ def throttle(val):
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
 freq = 0.01        # measurement frequency
-throttle_val = 1.0  # throttle between 0 (min) and 1 (max)
+throttle_val = 1.0 # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
