@@ -14,7 +14,6 @@ if len(sys.argv) == 1:
     root.withdraw()
     dataPath = filedialog.askopenfilename() # Ask user to select data
     print('\n\nPath to data: %s\n' % dataPath)
-    root.destroy()
 
 # If user enters "last" as cmd line arg, plot the most recent data file
 elif len(sys.argv) == 2:
@@ -35,7 +34,7 @@ with open(dataPath,"r") as f:
         force.append(float(line[0]))
         time.append(float(line[1]))
         
-force = sig.medfilt(force,3)
+force = sig.medfilt(force,5)
 
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(10,7))

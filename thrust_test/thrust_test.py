@@ -64,7 +64,7 @@ def read_data(DATA_FLAG):
             
         gpio.output(SCK,1)
         Count=Count^0x800000
-        Count=Count-8446300
+        Count=Count-8286589
         Count=Count/divisor
 
         gpio.output(SCK,0)
@@ -121,7 +121,7 @@ def throttle(val):
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
 freq = 0.01        # measurement frequency
-throttle_val = 0.8    # throttle between 0 (min) and 1 (max)
+throttle_val = 0.8   # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
