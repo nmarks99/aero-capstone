@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from matplotlib import pyplot as plt
 import tkinter as tk
 from tkinter import filedialog
@@ -14,6 +15,7 @@ if len(sys.argv) == 1:
     print('\n\nPath to data: %s\n' % dataPath)
     root.destroy()
 
+# If user enters "last" as cmd line arg, plot the most recent data file
 elif len(sys.argv) == 2:
     if sys.argv[1] == "last":
         list_of_files = glob.glob('./data/*') # * means all if need specific format then *.csv
