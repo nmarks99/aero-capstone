@@ -17,7 +17,11 @@ elif len(sys.argv) != 1:
 
 
 def read_data(DATA_FLAG):
-
+    '''
+    read_data(DATA_FLAG) reads data a single value from the load 
+    cell and returns it as a float. If DATA_FLAG == False, then
+    instead of reading the load cell, it just returns a random integer
+    '''
     if DATA_FLAG:
         # read actual data from load cell 
 
@@ -73,7 +77,7 @@ def read_data(DATA_FLAG):
 
 def write_to_file(arr):
     '''
-    this function writes the data to a text file and the file
+    write_to_file(arr) writes the data to a text file and the file
     name will be the current date and time and it will be stored
     in a folder in the current directory called "data"
     '''
@@ -91,13 +95,19 @@ def write_to_file(arr):
     with open(outfile,"w+") as of:
         for line in arr:      
             of.write("".join([line[0],",",line[1],"\n"]))
-    print("Data saved to "+outfile)
+    print("\nData saved to "+outfile)
 
 
+
+# =================================
+
+# Main program loop
+
+# =================================
 
 data_arr = [] # array to store data 
 t0 = time.time() # start time
-freq = 0.1 # measurement frequency
+freq = 0.05 # measurement frequency
 try:
     while(True): # probably make while(True)
 
@@ -106,6 +116,5 @@ try:
         print("Thrust = {:.4f} N, Time = {:.4f} s".format(val,float(t)))
         data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
         time.sleep(freq) # delay between each measurement
-finally:
-    # Write the data to a file
+except KeyboardInterrupt:
     write_to_file(data_arr)
