@@ -12,16 +12,16 @@ try:
         gain=64
     )
 
-    hx711.reset()   # Before we start, reset the HX711 (not obligate)
+    hx711.reset()   # reset the HX711 before starting
+    
+    calibration_factor = 1
     while(True):
-        measures = hx711.get_raw_data(num_measures=1)
-        print(measures)
+        print( calibration_factor * hx711.get_raw_data(num_measures=1)[0] )
         time.sleep(0.05)
 
 finally:
-    GPIO.cleanup()  # always do a GPIO cleanup in your scripts!
+    GPIO.cleanup()  # resets pins to inputs for safety
 
-print("\n".join(measures))
 
 
 
