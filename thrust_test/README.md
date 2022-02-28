@@ -10,6 +10,13 @@ and do a keyboard interrupt (CTRL+C) to break out of the infinite loop when you
 are done reading data. Data will be saved to a folder called "data" in the 
 current working directory.
 
+If you run 
+```
+python3 thrust_test.py debug
+```
+it will print out random integer values for thrust instead of actually reading
+the load cell. This is helpful for debugging.
+
 ## Plotting
 To plot the most recently saved data, run the following command
 ```
