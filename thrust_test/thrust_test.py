@@ -51,7 +51,7 @@ def read_data(DATA_FLAG):
             i=0
         for i in range(24):
             gpio.output(SCK,1)
-            Count=Count<<1
+            Count=Count<<1 # a << b = a * 2**b
 
             gpio.output(SCK,0)
             #time.sleep(0.001)
