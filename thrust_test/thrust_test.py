@@ -4,16 +4,66 @@ import numpy as np
 import os 
 from datetime import datetime
 import time
+import sys
+
+_FLAG = True
+if len(sys.argv) == 2:
+    if sys.argv[1] == "test":
+        _FLAG = False
+elif len(sys.argv) != 1:
+    raise ValueError('Invalid number of inputs')
 
 
-def read_data():
-    '''
-    TODO: Replace this function with whatever function is used to
-    read from the load cell
-    '''
-    
-    # instead of returing random int, return value from load cell
-    return random.randint(1,100)
+# Define pins
+RS =18
+EN =23
+D4 =24
+D5 =25
+D6 =8
+D7 =7
+
+DT =27
+SCK=17
+
+m1=12
+m2=1
+
+# divisor for calibration
+divisor=37142;
+
+def read_data(DATA_FLAG):
+    if DATA_FLAG:
+        import RPi.GPIO as gpio
+        gpio.setmode(gpio.BCM) 
+        i=0
+        Count=0
+        gpio.setup(DT, gpio.OUT)
+        gpio.setup(SCK, gpio.OUT)
+        gpio.output(DT,1)
+        gpio.output(SCK,0)
+        gpio.setup(DT, gpio.IN)
+
+
+        while gpio.input(DT) == 1:
+            i=0
+        for i in range(24):
+            gpio.output(SCK,1)
+            Count=Count<<1
+
+            gpio.output(SCK,0)
+            #time.sleep(0.001)
+            if gpio.input(DT) == 0: 
+                Count=Count+1
+            
+        gpio.output(SCK,1)
+        Count=Count^0x800000
+        Count=Count-8446300
+        Count=Count/divisor
+
+        gpio.output(SCK,0)
+        return Count 
+    else:
+        return random.randint(-100,100)
 
 
 def write_to_file(arr):
@@ -39,19 +89,16 @@ def write_to_file(arr):
     print("Data saved to "+outfile)
 
 
-
-i = 0
 data_arr = [] # array to store data 
 t0 = time.time() # start time
-while(i < 50): # probably make while(True)
+try:
+    while(True): # probably make while(True)
 
-    val = read_data() # read data from load cell
-    print(val)
-    t = str(round((time.time()-t0),4)) # get current time 
-    data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
-    i += 1
-    time.sleep(0.1) # delay between each measurement
-
-
-# Write the data to a file
-write_to_file(data_arr)
+        val = read_data(DATA_FLAG=_FLAG) # read data from load cell
+        t = str(round((time.time()-t0),4)) # get current time 
+        print("Thrust = {:.4f} N, Time = {:.4f} s".format(val,float(t)))
+        data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
+        time.sleep(0.1) # delay between each measurement
+finally:
+    # Write the data to a file
+    write_to_file(data_arr)
