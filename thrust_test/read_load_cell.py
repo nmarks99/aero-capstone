@@ -16,10 +16,15 @@ def read_data():
 
 
 def write_to_file(arr):
-    # assert(np.shape(data_arr[0])[1] == 2), 'Input must be be an array of 1x2 arrays'    
+    '''
+    this function writes the data to a text file and the file
+    name will be the current date and time and it will be stored
+    in a folder in the current directory called "data"
+    '''
+
     now = datetime.now()
     dt_str = now.strftime("%b-%d_%Hhr-%Mmin-%Ssec")
-    outfile = "".join(["./data/",dt_str,'.txt'])
+    outfile = "".join(["data/",dt_str,'.txt'])
     
     # Create a data folder if it doesn't exist
     if not os.path.isdir("./data/"):
@@ -30,6 +35,7 @@ def write_to_file(arr):
     with open(outfile,"w+") as of:
         for line in arr:      
             of.write("".join([line[0],",",line[1],"\n"]))
+    print("Data saved to "+outfile)
 
 
 
@@ -44,6 +50,7 @@ while(i < 50): # probably make while(True)
     data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
     i += 1
     time.sleep(0.1) # delay between each measurement
+
 
 # Write the data to a file
 write_to_file(data_arr)
