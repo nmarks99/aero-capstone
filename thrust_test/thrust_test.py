@@ -6,34 +6,37 @@ from datetime import datetime
 import time
 import sys
 
+# Passing "debug" as an cmd line input argument will print random numbers instead 
+# of actually reading load cell. Good for debugging.
 _FLAG = True
 if len(sys.argv) == 2:
-    if sys.argv[1] == "test":
+    if sys.argv[1] == "debug":
         _FLAG = False
 elif len(sys.argv) != 1:
     raise ValueError('Invalid number of inputs')
 
 
-# Define pins
-RS =18
-EN =23
-D4 =24
-D5 =25
-D6 =8
-D7 =7
-
-DT =27
-SCK=17
-
-m1=12
-m2=1
-
-# divisor for calibration
-divisor=37142;
-
 def read_data(DATA_FLAG):
+
     if DATA_FLAG:
+        # read actual data from load cell 
+
         import RPi.GPIO as gpio
+        # Define pins
+        RS =18
+        EN =23
+        D4 =24
+        D5 =25
+        D6 =8
+        D7 =7
+        DT =27
+        SCK=17
+        m1=12
+        m2=1
+
+        # Divisor for calibration
+        divisor=37142;
+        
         gpio.setmode(gpio.BCM) 
         i=0
         Count=0
@@ -62,7 +65,9 @@ def read_data(DATA_FLAG):
 
         gpio.output(SCK,0)
         return Count 
+
     else:
+        # just return random ints for debugging
         return random.randint(-100,100)
 
 
@@ -89,8 +94,10 @@ def write_to_file(arr):
     print("Data saved to "+outfile)
 
 
+
 data_arr = [] # array to store data 
 t0 = time.time() # start time
+freq = 0.1 # measurement frequency
 try:
     while(True): # probably make while(True)
 
@@ -98,7 +105,7 @@ try:
         t = str(round((time.time()-t0),4)) # get current time 
         print("Thrust = {:.4f} N, Time = {:.4f} s".format(val,float(t)))
         data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
-        time.sleep(0.1) # delay between each measurement
+        time.sleep(freq) # delay between each measurement
 finally:
     # Write the data to a file
     write_to_file(data_arr)
