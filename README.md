@@ -16,5 +16,5 @@ git clone https://github.com/nmarks99/aero-capstone.git
 If you are on Northwestern Guest or something similar you may need to clone the repo with SSH if you want the ability to be able push to the remote repo. To do 
 this run the following command. You will need to have generated an SSH key already.
 ```
-git@github.com:nmarks99/aero-capstone.git
+git clone git@github.com:nmarks99/aero-capstone.git
 ```
