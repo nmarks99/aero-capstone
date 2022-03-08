@@ -8,12 +8,23 @@ import sys
 
 # Passing "debug" as an cmd line input argument will print random numbers instead 
 # of actually reading load cell. Good for debugging.
-_FLAG = True
+FLAG = True
 if len(sys.argv) == 2:
     if sys.argv[1] == "debug":
-        _FLAG = False
+        FLAG = False
 elif len(sys.argv) != 1:
     raise ValueError('Invalid number of inputs')
+
+
+
+if FLAG:
+    import RPi.GPIO as gpio
+    import pigpio
+
+    pi = pigpio.pi()
+    ESC = 4 # ESC connected to GPIO pin #4
+    pi.set_servo_pulsewidth(ESC,0) # initially set pulse width to zero
+
 
 
 def read_data(DATA_FLAG):
@@ -24,22 +35,11 @@ def read_data(DATA_FLAG):
     '''
     if DATA_FLAG:
         # read actual data from load cell 
-
-        import RPi.GPIO as gpio
-        # Define pins
-        RS =18
-        EN =23
-        D4 =24
-        D5 =25
-        D6 =8
-        D7 =7
         DT =27
         SCK=17
-        m1=12
-        m2=1
 
         # Divisor for calibration
-        divisor=37142;
+        divisor=37142
         
         gpio.setmode(gpio.BCM) 
         i=0
@@ -75,6 +75,7 @@ def read_data(DATA_FLAG):
         return random.randint(-100,100)
 
 
+
 def write_to_file(arr):
     '''
     write_to_file(arr) writes the data to a text file and the file
@@ -99,22 +100,41 @@ def write_to_file(arr):
 
 
 
-# =================================
+def throttle(val):
+    '''
+    throttle(val) sets pulse width for PWM signal given a value between 0 and 1
+    corresponding to a percentage of max throttle
+    '''
 
+    assert(val >= 0 and val <= 1), 'Throttle is a value between 0(min) and 1 (max)'
+    pulse_width = 1000 + 1000*val
+    pi.set_servo_pulsewidth(ESC,pulse_width)
+    
+
+
+
+
+# =================================
 # Main program loop
-
 # =================================
 
-data_arr = [] # array to store data 
-t0 = time.time() # start time
-freq = 0.05 # measurement frequency
-try:
-    while(True): # probably make while(True)
+data_arr = []       # array to store data 
+t0 = time.time()    # start time
+freq = 0.001        # measurement frequency
+throttle_val = 0    # throttle between 0 (min) and 1 (max)
 
-        val = read_data(DATA_FLAG=_FLAG) # read data from load cell
+try:
+    while(True): 
+
         t = str(round((time.time()-t0),4)) # get current time 
+
+        if (t > 5 and t < 5):
+            throttle(throttle_val)
+        
+        val = read_data(DATA_FLAG=FLAG) # read data from load cell
         print("Thrust = {:.4f} N, Time = {:.4f} s".format(val,float(t)))
         data_arr.append([str(val),t]) # append string of load cell value and timestamp to data array
         time.sleep(freq) # delay between each measurement
+
 except KeyboardInterrupt:
     write_to_file(data_arr)
