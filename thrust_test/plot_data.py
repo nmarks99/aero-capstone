@@ -5,6 +5,7 @@ from tkinter import filedialog
 import sys
 import glob
 import os
+import scipy.signal as sig
 
 
 if len(sys.argv) == 1:
@@ -33,6 +34,8 @@ with open(dataPath,"r") as f:
         line = line.rstrip().split(",")
         force.append(float(line[0]))
         time.append(float(line[1]))
+        
+force = sig.medfilt(force,3)
 
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(10,7))
