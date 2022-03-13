@@ -39,7 +39,7 @@ force = sig.medfilt(force,5)
 
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(10,7))
-ax.plot(time,force)
+ax.plot(time,force,"-ro")
 ax.set(xlabel="Time(s)", ylabel="Thrust(N)", title="Thrust vs. Time")
 plt.show()
 
