@@ -64,8 +64,8 @@ def read_data(DATA_FLAG):
             
         gpio.output(SCK,1)
         Count=Count^0x800000
-        # Count=Count-8446300
-        Count=Count-8280087
+        # Count=Count-8280087
+        Count = Count - 8284581.71
         Count=Count/divisor
 
         gpio.output(SCK,0)
