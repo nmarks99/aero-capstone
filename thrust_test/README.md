@@ -1,5 +1,5 @@
 # Static Thrust Test Stand
-Used to measure static thrust of a propeller
+Used to measure static thrust of a propeller. RPM data found here https://docs.google.com/spreadsheets/d/1qRCRGGBxDaXqzT6ZN4GYqFSRvBQVMMZf4AISBBoSiTY/edit#gid=0
 
 ## Reading Data
 Assuming you have everthing wired correctly, simply run the following command
