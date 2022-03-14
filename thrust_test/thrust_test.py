@@ -12,12 +12,18 @@ FLAG = True
 if len(sys.argv) == 2:
     if sys.argv[1] == "debug":
         FLAG = False
+    else:
+        try:
+            throttle_val = float(sys.argv[1])
+        except:
+            raise ValueError("Input throttle value cannot be converted to float")
 elif len(sys.argv) != 1:
     raise ValueError('Invalid number of inputs')
 
 
 
 if FLAG:
+    # only import RPI.GPIO and pigpio
     import RPi.GPIO as gpio
     import pigpio
 
@@ -122,7 +128,7 @@ def throttle(val):
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
 freq = 0.01        # measurement frequency
-throttle_val = 1.0 # throttle between 0 (min) and 1 (max)
+# throttle_val = 1.0 # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
