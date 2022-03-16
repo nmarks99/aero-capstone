@@ -47,6 +47,7 @@ def read_data(DATA_FLAG):
         # Divisor for calibration
         divisor=37142
         
+
         gpio.setmode(gpio.BCM) 
         i=0
         Count=0
@@ -67,12 +68,15 @@ def read_data(DATA_FLAG):
             time.sleep(0.001)
             if gpio.input(DT) == 0: 
                 Count=Count+1
-            
-        gpio.output(SCK,1)
-        Count=Count^0x800000
-        Count=Count-8279641.8
+        
+        # Divisor and subtractor constants
+        DIV = 37142
+        SUB = 8279641.8 
 
-        Count=Count/divisor
+        gpio.output(SCK,1)
+        Count = Count^0x800000
+        Count = Count - SUB
+        Count = Count/divisor
 
         gpio.output(SCK,0)
         return Count 
