@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import dronekit
 import time 
 
@@ -14,4 +13,4 @@ def connect_drone(CONNECTION_STRING,BAUDRATE=115200):
 
 
 # Close vehicle object before exiting script
-#  vehicle.close()
+# vehicle.close()
