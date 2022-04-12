@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-ssh pi@10.106.10.124
+ssh pi@192.168.1.23
 
