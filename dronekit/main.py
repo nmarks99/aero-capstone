@@ -9,9 +9,11 @@ import dronekit
 import dklib
 from dklib import clear_print
 
-# Connect to the drone
+# Define connection port and baudrate
 PORT = "/dev/serial0" # Serial port on the Pi
 BAUD = 921600
+
+# Connect to the drone
 clear_print("Connecting...")
 vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
