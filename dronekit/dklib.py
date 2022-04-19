@@ -4,7 +4,7 @@
 '''
 dklib.py 
 
-Interal library of functions that use dronekit but are written by us
+Internal library of functions that use dronekit but are written by us
 and taylored for our specific application.
 '''
 

@@ -10,8 +10,10 @@ import dklib
 from dklib import clear_print
 
 # Connect to the drone
+PORT = "com5"
+BAUD = 115200
 clear_print("Connecting...")
-vehicle = dronekit.connect("com5", baud=115200, wait_ready=True)
+vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
 
 # Set the servo position
