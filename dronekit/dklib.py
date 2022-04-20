@@ -30,7 +30,7 @@ def set_servo(vehicle, servo_number, pwm_value):
         pwm_value = pwm_value.lower()
         pwm_value = values[pwm_value]
     else:
-        pwm_value_int = int(pwm_value)
+        pwm_value = int(pwm_value)
     
     msg = vehicle.message_factory.command_long_encode(
 		0,
@@ -38,7 +38,7 @@ def set_servo(vehicle, servo_number, pwm_value):
         dronekit.mavutil.mavlink.MAV_CMD_DO_SET_SERVO,
         0,
 		servo_number,
-		pwm_value_int,
+		pwm_value,
 		0,0,0,0,0 # rest are zero
 		)
         
