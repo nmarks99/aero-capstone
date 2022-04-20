@@ -7,7 +7,7 @@ OS
 test/
 drone_ssh_key
 drone_ssh_key.pub
-
+*.note
 
 # Prerequisites
 *.d
