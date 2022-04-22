@@ -19,6 +19,8 @@ clear_print("Connecting...")
 vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
 
+input("Press enter to continue")
+
 # Set the servo position
 dklib.set_servo(vehicle, 9, "low")
 time.sleep(1)
@@ -27,8 +29,8 @@ time.sleep(1)
 dklib.set_servo(vehicle, 9, "high")
 
 while True:
-    print(vehicle.attitude)
-    time.sleep(0.2)
+    clear_print(vehicle.attitude)
+    time.sleep(0.1)
 
 # Close vehicle object
 vehicle.close()
