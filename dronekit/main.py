@@ -21,6 +21,8 @@ clear_print("Connected Successfully!\n\n")
 
 input("Press enter to continue")
 
+vehicle.arm = True
+
 # Set the servo position
 dklib.set_servo(vehicle, 9, "low")
 time.sleep(1)
