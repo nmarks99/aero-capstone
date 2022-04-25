@@ -73,7 +73,7 @@ def arm_and_takeoff(aTargetAltitude):
 
 
 arm_and_takeoff(5)
-time.sleep(10)
+time.sleep(3)
 #print("Set default/target airspeed to 3")
 #vehicle.airspeed = 3
 
