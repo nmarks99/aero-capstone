@@ -41,7 +41,7 @@ def arm_and_takeoff(aTargetAltitude):
     Arms vehicle and fly to aTargetAltitude.
     """
 
-    print("Basic pre-arm checks")
+    # print("Basic pre-arm checks")
     # Don't try to arm until autopilot is ready
     #while not vehicle.is_armable:
     #    print(" Waiting for vehicle to initialise...")
@@ -72,7 +72,7 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 
-arm_and_takeoff(10)
+arm_and_takeoff(5)
 time.sleep(10)
 #print("Set default/target airspeed to 3")
 #vehicle.airspeed = 3
