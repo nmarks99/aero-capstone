@@ -17,6 +17,8 @@ if len(sys.argv) == 2:
             throttle_val = float(sys.argv[1])
         except:
             raise ValueError("Input throttle value cannot be converted to float")
+elif len(sys.argv) == 1:
+    throttle_val = 0.0
 elif len(sys.argv) != 1:
     raise ValueError('Invalid number of inputs')
 
@@ -67,7 +69,7 @@ def read_data(DATA_FLAG):
         
         # Divisor and subtractor constants
         DIV = 37142
-        SUB = 8206209.82
+        SUB = 8277781
 
         gpio.output(SCK,1)
         Count = Count^0x800000
@@ -128,7 +130,6 @@ def throttle(val):
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
 freq = 0.01        # measurement frequency
-# throttle_val = 0.9  # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
