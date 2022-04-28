@@ -69,7 +69,7 @@ def read_data(DATA_FLAG):
         
         # Divisor and subtractor constants
         DIV = 37142
-        SUB = 8277781
+        SUB = 8259177
 
         gpio.output(SCK,1)
         Count = Count^0x800000
