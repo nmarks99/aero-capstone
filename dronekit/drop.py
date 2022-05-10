@@ -7,6 +7,15 @@ import dklib
 import time
 from dklib import clear_print
 import argparse
+import board
+import busio
+import adafruit_bno055
+import time
+from numpy import sqrt
+
+# connect IMU
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_bno055.BNO055_I2C(i2c)
 
 # Define connection port and baudrate
 PORT = "/dev/serial0" # Serial port on the Pi
@@ -31,20 +40,16 @@ input("Press enter to continue")
 time.sleep(1)
 
 while(True):
-   v1=vehicle.velocity[2]
-   time.sleep(0.04)
-   v2=vehicle.velocity[2]
-   accel = (v2 - v1)
-   print(accel)
-   if (abs(vehicle.velocity[0]) > 1.0 or abs(vehicle.velocity[1]) > 1.0 or abs(vehicle.velocity[2]) > 1.0):
-      dklib.set_servo(vehicle,9,"high")
-      dklib.set_servo(vehicle,9,"low")
-      print("Drop Detected")
-      print("Acceleration:{:.4f}".format(accel))
-      print(vehicle.velocity[2])
-      break
-   time.sleep(0.01)
-   
+    ax = sensor.acceleration[0]
+    ay = sensor.acceleration[1]
+    az = sensor.acceleration[2]
+    a_mag = sqrt(ax**2 + ay**2 + az**2)
+    time.sleep(0.05)
+    if a_mag < 1.0:
+        dklib.set_servo(vehicle,9, "high")
+        break
+
+
 dklib.set_servo(vehicle,9,1750)
 
 # Close vehicle object
