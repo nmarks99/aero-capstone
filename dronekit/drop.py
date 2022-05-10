@@ -11,7 +11,7 @@ import board
 import busio
 import adafruit_bno055
 import time
-from numpy import sqrt
+from math import sqrt
 
 # connect IMU
 i2c = busio.I2C(board.SCL, board.SDA)
