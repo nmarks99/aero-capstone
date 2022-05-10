@@ -45,7 +45,9 @@ while(True):
     az = sensor.acceleration[2]
     a_mag = sqrt(ax**2 + ay**2 + az**2)
     time.sleep(0.05)
+    print(a_mag)
     if a_mag < 1.0:
+        print("Drop detected!")
         dklib.set_servo(vehicle,9, "high")
         break
 
