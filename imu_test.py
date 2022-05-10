@@ -12,8 +12,7 @@ while True:
     ax = sensor.acceleration[0]
     ay = sensor.acceleration[1]
     az = sensor.acceleration[2]
-    a_mag = sqrt(ax**2 + ay**2 + az**2)
-    
+    print(ax) 
   
     time.sleep(0.1)
 
