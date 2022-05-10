@@ -13,7 +13,7 @@ import adafruit_bno055
 import time
 from math import sqrt
 
-# connect IMU
+# Connect IMU with I2C
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_bno055.BNO055_I2C(i2c)
 
@@ -27,30 +27,26 @@ vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
 
 input("Press enter to continue")
+time.sleep(1) # might not be needed
 
-#Damn thing wont play a tune
-
-#parser = argparse.ArgumentParser(description='Play tune')
-#parser.add_argument('--tune', type=str, help="tune to play", default="AAAA")
-#args = parser.parse_args()
-
-#vehicle.play_tune(args.tune)
-#  vehicle.mode = dronekit.VehicleMode("GUIDED")
-#vehicle.armed = True
-time.sleep(1)
-
+THRESHOLD = 0.9
 while(True):
+
+    # Get acceleration components and magnitude
     ax = sensor.acceleration[0]
     ay = sensor.acceleration[1]
     az = sensor.acceleration[2]
     a_mag = sqrt(ax**2 + ay**2 + az**2)
-    time.sleep(0.05)
+    time.sleep(0.05) # Can potentially adjust this delay
     print(a_mag)
-    if a_mag < 9.0:
+    
+    # If threshold for falling is met, deploy arms and break out
+    if a_mag < THRESHOLD:
         print("Drop detected!")
         dklib.set_servo(vehicle,9, "high")
         break
 
+# Set servo back to its start 
 time.sleep(1)
 dklib.set_servo(vehicle,9,1750)
 
