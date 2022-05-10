@@ -51,7 +51,7 @@ while(True):
         dklib.set_servo(vehicle,9, "high")
         break
 
-
+time.sleep(1)
 dklib.set_servo(vehicle,9,1750)
 
 # Close vehicle object
