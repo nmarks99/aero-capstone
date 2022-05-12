@@ -150,11 +150,10 @@ print("Hold position for 3 seconds")
 set_attitude(duration = 3)
 
 # Set thrust to 0
-set_attitude(thrust=0.0)
-time.sleep(0.2)
+set_attitude(thrust=0.0,duration=0.2)
 
 # Hold altitude at wherever it is at now
-vehicle.mode = VehicleMode("AltHold")
+vehicle.mode = VehicleMode("ALT_HOLD")
 time.sleep(3)
 
 print("Setting LAND mode...")
