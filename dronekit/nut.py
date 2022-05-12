@@ -143,11 +143,19 @@ vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 input("Press enter to continue")
 
 # Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(2.5)
+arm_and_takeoff_nogps(3.0)
 
 # Hold the position for 3 seconds.
 print("Hold position for 3 seconds")
 set_attitude(duration = 3)
+
+# Set thrust to 0
+set_attitude(thrust=0.0)
+time.sleep(0.2)
+
+# Hold altitude at wherever it is at now
+vehicle.mode = VehicleMode("AltHold")
+time.sleep(3)
 
 print("Setting LAND mode...")
 vehicle.mode = VehicleMode("LAND")
@@ -158,3 +166,7 @@ print("Close vehicle object")
 vehicle.close()
 
 print("Completed")
+
+
+
+
