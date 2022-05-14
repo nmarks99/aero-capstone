@@ -16,24 +16,26 @@ def write_to_file(arr):
     in a folder in the current directory called "data"
     '''
     
-    outfile = "data/out.txt"
-
     # Create a data folder if it doesn't exist
     if not os.path.isdir("./data/"):
         os.system("mkdir data")
+    
+    outfile = "data/out.txt"
 
     # write the data to a file saved in ./data/
-    # each file is a csv .txt file with format DATA, TIMESTAMP
+    # each file is a csv .txt file with format (ax,ay,az,time)
     with open(outfile,"w+") as of:
-        for line in arr:      
-            of.write("".join([str(line[0][0]),",",str(line[0][1]),",",str(line[0][2]),",",str(line[1]),"\n"]))
+        for line in arr:
+            ax = str(line[0])
+            ay = str(line[1])
+            az = str(line[2])
+            t = str(line[3])
+            of.write("".join(
+                [ax,",",ay,",",az,",",t,"\n"]
+            ))
     print("\nData saved to "+outfile)
 
 def debug():
-    data = [] 
-    for i in range(100):
-        a1 = random.randint(-100, 100)
-        a = (a1,a1,a1)
-        t = random.randint(-100,100)
-        data.append([a,t])
-    return data 
+    a = [1,1,1]
+    return a
+
