@@ -2,7 +2,7 @@ import board
 import busio
 import adafruit_bno055
 import os
-from numpy import sqrt
+from math import sqrt
 
 def connect_imu():
     i2c = busio.I2C(board.SCL, board.SDA)
