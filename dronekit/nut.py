@@ -176,13 +176,15 @@ try:
         # Get current time and acceleration
         t_now = time.time() - t0
         (ax, ay, az, amag) = imu.read_acc(IMU)
-        acc_data.append([ax, ay, az, amag, t_now]) 
+        #  acc_data.append([ax, ay, az, amag, t_now])
 
         # Print out acceleration data
-        print(
-            "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-            .format(ax,ay,az,amag,t_now)
-        )
+        #  print(
+            #  "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+            #  .format(ax,ay,az,amag,t_now)
+        #  )
+
+        print(ax, ay, az, amag, t_now)
 
         if not DROPPED:
             # Check if drop detected
@@ -208,7 +210,7 @@ try:
             # Keep throttle at max until hover is detected
             set_attitude(thrust=1.0)
             
-            if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 5:
+            if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 7:
                 print("Hover achieved!")
 
                 # Deploy legs
