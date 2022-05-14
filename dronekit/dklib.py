@@ -11,6 +11,7 @@ import dronekit
 import os 
 import time
 import math
+from pymavlink import mavutil
 
 
 def clear_print(msg):

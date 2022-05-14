@@ -6,6 +6,56 @@ import time
 import imu
 from dklib import clear_print
 
+
+
+
+def arm_and_takeoff_nogps(aTargetAltitude):
+    """
+    Arms vehicle and fly to aTargetAltitude without GPS data.
+    """
+
+    ##### CONSTANTS #####
+    DEFAULT_TAKEOFF_THRUST = 0.7
+    SMOOTH_TAKEOFF_THRUST = 0.6
+
+    #  print("Basic pre-arm checks")
+    # Don't let the user try to arm until autopilot is ready
+    # If you need to disable the arming check,
+    # just comment it with your own responsibility.
+    #  while not vehicle.is_armable:
+        #  print(" Waiting for vehicle to initialise...")
+        #  time.sleep(1)
+
+    #  print("Arming motors")
+    # Copter should arm in GUIDED_NOGPS mode
+    vehicle.mode = VehicleMode("GUIDED_NOGPS")
+    #  vehicle.armed = True
+
+    while not vehicle.armed:
+        print(" Waiting for arming...")
+        vehicle.armed = True
+        time.sleep(1)
+
+    print("Taking off!")
+
+    thrust = DEFAULT_TAKEOFF_THRUST
+    while True:
+        current_altitude = vehicle.location.global_relative_frame.alt
+        print(" Altitude: %f  Desired: %f" %
+              (current_altitude, aTargetAltitude))
+        if current_altitude >= aTargetAltitude*0.95: # Trigger just below target alt.
+            print("Reached target altitude")
+            break
+        elif current_altitude >= aTargetAltitude*0.6:
+            thrust = SMOOTH_TAKEOFF_THRUST
+        set_attitude(thrust = thrust)
+        time.sleep(0.2)
+
+
+
+
+
+
 """
 SETUP
 """
@@ -23,14 +73,14 @@ input("Press enter to continue")
 # Connect IMU
 IMU = imu.connect_imu()
 
-vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
+# vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
 
-# Arm the vehicle
-while not vehicle.armed:
-    clear_print("Waiting to arm...")
-    vehicle.armed = True
-    time.sleep(1)
-    print("Armed!")
+# # Arm the vehicle
+# while not vehicle.armed:
+#     clear_print("Waiting to arm...")
+#     vehicle.armed = True
+#     time.sleep(1)
+#     print("Armed!")
 
 
 """
@@ -45,7 +95,8 @@ LEG_SERVO = 10 # TODO: check servo number
 
 # Take off in GUIDED_NOGPS mode.
 print("Taking off...")
-dklib.takeoff(vehicle, target_altitude=5.0)
+# dklib.takeoff(vehicle, target_altitude=5.0)
+arm_and_takeoff_nogps(5)
 
 # Hold the position for 3 seconds.
 print("Holding position for 3 seconds")
