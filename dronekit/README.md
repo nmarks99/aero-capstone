@@ -8,3 +8,4 @@ more for our specific needs
 
 ## imu
 Functions for interfacing with the BNO055 IMU using CircuitPython
+[https://docs.circuitpython.org/projects/bno055/en/latest/index.html](https://docs.circuitpython.org/projects/bno055/en/latest/index.html)

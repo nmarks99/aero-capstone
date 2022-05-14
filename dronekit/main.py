@@ -38,10 +38,12 @@ while not vehicle.armed:
 MAIN PROGRAM LOOP
 """
 acc_data = [] 
+DROPPED = False # Flag for if drop has been detected or not
 DROP_THRESHOLD = 1234 # TODO: update thresholds
 HOVER_THRESHOLD = 1234
 ARM_SERVO = 9
 LEG_SERVO = 10 # TODO: check servo number
+
 t0 = time.time() # time = 0 here
 
 # Waiting for drop to be detected 

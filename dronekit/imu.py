@@ -1,13 +1,22 @@
-#  import board
-#  import busio
-#  import adafruit_bno055
+import board
+import busio
+import adafruit_bno055
 import os
 import random
+from numpy import sqrt
 
 def connect_imu():
     i2c = busio.I2C(board.SCL, board.SDA)
     imu = adafruit_bno055.BNO055_I2C(i2c)
     return imu
+
+def read_acc(IMU):
+    ax = IMU.acceleration[0]
+    ay = IMU.acceleration[1]
+    az = IMU.acceleration[2]
+    amag = sqrt(ax**2 + ay**2 + az**2)
+    return (ax, ay, az, amag) 
+    
 
 def write_to_file(arr):
     '''
@@ -29,8 +38,9 @@ def write_to_file(arr):
             ax = str(line[0])
             ay = str(line[1])
             az = str(line[2])
-            t = str(line[3])
+            amag = str(line[3])
+            t = str(line[4])
             of.write("".join(
-                [ax,",",ay,",",az,",",t,"\n"]
+                [ax,",",ay,",",az,",",amag,",",t,"\n"]
             ))
     print("\nData saved to "+outfile)
