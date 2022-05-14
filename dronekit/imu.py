@@ -10,9 +10,9 @@ def connect_imu():
     return imu
 
 def read_acc(IMU):
-    ax = IMU.linear_acceleration[0]
-    ay = IMU.linear_acceleration[1]
-    az = IMU.linear_acceleration[2]
+    ax = IMU.acceleration[0]
+    ay = IMU.acceleration[1]
+    az = IMU.acceleration[2]
     amag = sqrt(ax**2 + ay**2 + az**2)
     return (ax, ay, az, amag) 
     

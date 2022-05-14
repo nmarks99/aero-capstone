@@ -143,7 +143,7 @@ vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 input("Press enter to continue")
 
 # Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(5.0)
+arm_and_takeoff_nogps(7.0)
 
 # Hold the position for 3 seconds.
 print("Hold position for 3 seconds")
@@ -163,8 +163,8 @@ IMU = imu.connect_imu()
 
 # Define constants
 DROPPED = False # Flag for if drop has been detected or not
-DROP_THRESHOLD = 1 # TODO: update thresholds
-HOVER_THRESHOLD = 1
+DROP_THRESHOLD = 8.8 # TODO: update thresholds
+HOVER_THRESHOLD = 8.8
 ARM_SERVO = 9
 LEG_SERVO = 10 # TODO: check servo number
 
