@@ -28,7 +28,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
 
     #  print("Arming motors")
     # Copter should arm in GUIDED_NOGPS mode
-    vehicle.mode = VehicleMode("GUIDED_NOGPS")
+    vehicle.mode = dklib.VehicleMode("GUIDED_NOGPS")
     #  vehicle.armed = True
 
     while not vehicle.armed:
@@ -48,7 +48,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
             break
         elif current_altitude >= aTargetAltitude*0.6:
             thrust = SMOOTH_TAKEOFF_THRUST
-        set_attitude(thrust = thrust)
+        dklib.set_attitude(thrust = thrust)
         time.sleep(0.2)
 
 
