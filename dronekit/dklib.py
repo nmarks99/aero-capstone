@@ -48,6 +48,35 @@ def set_servo(vehicle, servo_number, pwm_value):
         
     vehicle.send_mavlink(msg)
 
+def send_attitude_target(vehicle, roll_angle = 0.0, pitch_angle = 0.0,
+                         yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
+                         thrust = 0.5):
+    """
+    use_yaw_rate: the yaw can be controlled using yaw_angle OR yaw_rate.
+                  When one is used, the other is ignored by Ardupilot.
+    thrust: 0 <= thrust <= 1, as a fraction of maximum vertical thrust.
+            Note that as of Copter 3.5, thrust = 0.5 triggers a special case in
+            the code for maintaining current altitude.
+    """
+    if yaw_angle is None:
+        # this value may be unused by the vehicle, depending on use_yaw_rate
+        yaw_angle = vehicle.attitude.yaw
+    # Thrust >  0.5: Ascend
+    # Thrust == 0.5: Hold the altitude
+    # Thrust <  0.5: Descend
+    msg = vehicle.message_factory.set_attitude_target_encode(
+        0, # time_boot_ms
+        1, # Target system
+        1, # Target component
+        0b00000000 if use_yaw_rate else 0b00000100,
+        to_quaternion(roll_angle, pitch_angle, yaw_angle), # Quaternion
+        0, # Body roll rate in radian
+        0, # Body pitch rate in radian
+        math.radians(yaw_rate), # Body yaw rate in radian/second
+        thrust  # Thrust
+    )
+    vehicle.send_mavlink(msg)
+
 
 def set_attitude(roll_angle = 0.0, pitch_angle = 0.0,
                 yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
@@ -92,35 +121,6 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
     return [w, x, y, z]
 
-
-def send_attitude_target(vehicle, roll_angle = 0.0, pitch_angle = 0.0,
-                         yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
-                         thrust = 0.5):
-    """
-    use_yaw_rate: the yaw can be controlled using yaw_angle OR yaw_rate.
-                  When one is used, the other is ignored by Ardupilot.
-    thrust: 0 <= thrust <= 1, as a fraction of maximum vertical thrust.
-            Note that as of Copter 3.5, thrust = 0.5 triggers a special case in
-            the code for maintaining current altitude.
-    """
-    if yaw_angle is None:
-        # this value may be unused by the vehicle, depending on use_yaw_rate
-        yaw_angle = vehicle.attitude.yaw
-    # Thrust >  0.5: Ascend
-    # Thrust == 0.5: Hold the altitude
-    # Thrust <  0.5: Descend
-    msg = vehicle.message_factory.set_attitude_target_encode(
-        0, # time_boot_ms
-        1, # Target system
-        1, # Target component
-        0b00000000 if use_yaw_rate else 0b00000100,
-        to_quaternion(roll_angle, pitch_angle, yaw_angle), # Quaternion
-        0, # Body roll rate in radian
-        0, # Body pitch rate in radian
-        math.radians(yaw_rate), # Body yaw rate in radian/second
-        thrust  # Thrust
-    )
-    vehicle.send_mavlink(msg)
 
 
 def takeoff(vehicle, target_altitude, default_takeoff_thrust=0.7):
