@@ -28,7 +28,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
 
     #  print("Arming motors")
     # Copter should arm in GUIDED_NOGPS mode
-    vehicle.mode = dklib.VehicleMode("GUIDED_NOGPS")
+    vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
     #  vehicle.armed = True
 
     while not vehicle.armed:
