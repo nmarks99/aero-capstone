@@ -49,7 +49,7 @@ def arm_and_takeoff_nogps(aTargetAltitude):
             break
         elif current_altitude >= aTargetAltitude*0.6:
             thrust = SMOOTH_TAKEOFF_THRUST
-        dklib.set_attitude(thrust = thrust)
+        nut.set_attitude(thrust = thrust)
         time.sleep(0.2)
 
 
