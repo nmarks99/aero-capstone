@@ -23,6 +23,8 @@ input("Press enter to continue")
 # Connect IMU
 IMU = imu.connect_imu()
 
+vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
+
 # Arm the vehicle
 while not vehicle.armed:
     clear_print("Waiting to arm...")
