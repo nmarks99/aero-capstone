@@ -14,14 +14,14 @@ SETUP
 PORT = "/dev/serial0" # Serial port on the Pi
 BAUD = 921600
 
+# Connect IMU
+IMU = imu.connect_imu()
+
 # Connect to the Pixhawk
 clear_print("Connecting...")
 vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
 input("Press enter to continue")
-
-# Connect IMU
-IMU = imu.connect_imu()
 
 # Arm the vehicle
 while not vehicle.armed:
@@ -31,17 +31,20 @@ while not vehicle.armed:
     print("Armed!")
 
 
+
+
+
 """
 MAIN PROGRAM LOOP
 """
 acc_data = [] 
-DROP_THRESHOLD = 1234 # TODO: update this
+DROP_THRESHOLD = 1234 # TODO: update thresholds
 HOVER_THRESHOLD = 1234
 ARM_SERVO = 9
-LEG_SERVO = 10 # TODO: check number
-t0 = time.time()
+LEG_SERVO = 10 # TODO: check servo number
+t0 = time.time() # time = 0 here
 
-# Pre-drop loop
+# Waiting for drop to be detected 
 while True:
     t_now = time.time() - t0
     
@@ -59,7 +62,7 @@ while True:
     time.sleep(0.05) # TODO: is this a good delay?
 
 
-# After drop
+# Drop detected, waiting to reach hover
 while True:
     
     t_now = time.time() - t0
@@ -71,17 +74,20 @@ while True:
     
     # Set thrust to max
     dklib.set_attitude(thrust=1.0)
-    time.sleep(0.05)
     
     if az <= HOVER_THRESHOLD:
         clear_print("Hover reached!")
         dklib.set_servo(vehicle, LEG_SERVO, "HIGH")
         break
     
+    time.sleep(0.05)
+   
+# Set to land mode 
 vehicle.mode = dronekit.VehicleMode("LAND")
 input("Press enter when complete")
 
-# TODO: Add code to save acceleration data
+# Save acceleration data
+imu.write_to_file(acc_data)
 
 # Close vehicle object
 vehicle.close()
