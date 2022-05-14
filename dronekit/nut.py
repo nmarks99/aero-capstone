@@ -137,35 +137,35 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
 
 
-# Connect to pixhawk
-vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
+# # Connect to pixhawk
+# vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 
-input("Press enter to continue")
+# input("Press enter to continue")
 
-# Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(3.0)
+# # Take off 2.5m in GUIDED_NOGPS mode.
+# arm_and_takeoff_nogps(3.0)
 
-# Hold the position for 3 seconds.
-print("Hold position for 3 seconds")
-set_attitude(duration = 3)
+# # Hold the position for 3 seconds.
+# print("Hold position for 3 seconds")
+# set_attitude(duration = 3)
 
-#  # Set thrust to 0
-#  set_attitude(thrust=0.0,duration=0.2)
-#  set_attitude(thrust=1.0,duration=0.2)
+# #  # Set thrust to 0
+# #  set_attitude(thrust=0.0,duration=0.2)
+# #  set_attitude(thrust=1.0,duration=0.2)
 
-# Hold altitude at wherever it is at now
-#vehicle.mode = VehicleMode("ALT_HOLD")
-#  time.sleep(3)
+# # Hold altitude at wherever it is at now
+# #vehicle.mode = VehicleMode("ALT_HOLD")
+# #  time.sleep(3)
 
-print("Setting LAND mode...")
-vehicle.mode = VehicleMode("LAND")
-time.sleep(1)
+# print("Setting LAND mode...")
+# vehicle.mode = VehicleMode("LAND")
+# time.sleep(1)
 
-# Close vehicle object before exiting script
-print("Close vehicle object")
-vehicle.close()
+# # Close vehicle object before exiting script
+# print("Close vehicle object")
+# vehicle.close()
 
-print("Completed")
+# print("Completed")
 
 
 
