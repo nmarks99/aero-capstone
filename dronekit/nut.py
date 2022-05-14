@@ -143,7 +143,7 @@ vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 input("Press enter to continue")
 
 # Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(7.0)
+arm_and_takeoff_nogps(10.0)
 
 # Hold the position for 3 seconds.
 print("Hold position for 3 seconds")
@@ -210,7 +210,7 @@ try:
             # Keep throttle at max until hover is detected
             set_attitude(thrust=1.0)
             
-            if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 7:
+            if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 10:
                 print("Hover achieved!")
 
                 # Deploy legs
