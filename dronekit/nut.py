@@ -135,37 +135,112 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
 
 
+import imu
+
+# Connect to pixhawk
+vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
+
+input("Press enter to continue")
+
+# Take off 2.5m in GUIDED_NOGPS mode.
+arm_and_takeoff_nogps(5.0)
+
+# Hold the position for 3 seconds.
+print("Hold position for 3 seconds")
+set_attitude(duration = 3)
+
+IMU = imu.connect_imu()
+
+#  # Set thrust to 0
+#  set_attitude(thrust=0.0,duration=0.2)
+#  set_attitude(thrust=1.0,duration=0.2)
+
+# Hold altitude at wherever it is at now
+#vehicle.mode = VehicleMode("ALT_HOLD")
+#  time.sleep(3)
 
 
-# # Connect to pixhawk
-# vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 
-# input("Press enter to continue")
+# Define constants
+DROPPED = False # Flag for if drop has been detected or not
+DROP_THRESHOLD = 1 # TODO: update thresholds
+HOVER_THRESHOLD = 1
+ARM_SERVO = 9
+LEG_SERVO = 10 # TODO: check servo number
 
-# # Take off 2.5m in GUIDED_NOGPS mode.
-# arm_and_takeoff_nogps(3.0)
+t0 = time.time() # time = 0 here
+acc_data = [] # array to store acceleration data 
+try:
+    while True:
+        
+        # Get current time and acceleration
+        t_now = time.time() - t0
+        (ax, ay, az, amag) = imu.read_acc(IMU)
+        acc_data.append([ax, ay, az, amag, t_now]) 
 
-# # Hold the position for 3 seconds.
-# print("Hold position for 3 seconds")
-# set_attitude(duration = 3)
+        # Print out acceleration data
+        print(
+            "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+            .format(ax,ay,az,amag,t_now)
+        )
 
-# #  # Set thrust to 0
-# #  set_attitude(thrust=0.0,duration=0.2)
-# #  set_attitude(thrust=1.0,duration=0.2)
+        if not DROPPED:
+            # Check if drop detected
+            if amag >= DROP_THRESHOLD:
+                DROPPED = True
+                 
+                # Deploy arms
+                print("Arms deployed")
+                # dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
+                
+                # Set throttle to 100%
+                print("Throttle set to 100%")
+                set_attitude(thrust=1.0)
 
-# # Hold altitude at wherever it is at now
-# #vehicle.mode = VehicleMode("ALT_HOLD")
-# #  time.sleep(3)
+            elif vehicle.location.global_relative_frame.alt <= 3.0:
+                print("PANIC! ABORT MISSION!")
+                set_attitude(thrust=1.0)
+                time.sleep(0.5)
+                vehicle.mode = VehicleMode("ALT_HOLD")
+        
+        # Check if hover detected
+        elif DROPPED:
+            # Keep throttle at max until hover is detected
+            set_attitude(thrust=1.0)
+            
+            if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 5:
+                print("Hover achieved!")
 
-# print("Setting LAND mode...")
-# vehicle.mode = VehicleMode("LAND")
-# time.sleep(1)
+                # Deploy legs
+                # Hold position for 2 seconds
+                # print("Legs deployed")
+                # dklib.set_servo(vehicle, LEG_SERVO, "HIGH")
 
-# # Close vehicle object before exiting script
-# print("Close vehicle object")
-# vehicle.close()
+                # Hold altitude here
+                vehicle.mode = VehicleMode("ALT_HOLD")
+                time.sleep(5)
 
-# print("Completed")
+                # dklib.set_attitude(duration=2) # TODO: Check if this works
+                
+                # Set to LAND mode
+                vehicle.mode = VehicleMode("LAND")
+                break # Break out of the loop when we switch to LAND
+
+        time.sleep(0.05) # TODO: check if this delay is sufficient
+
+    imu.write_to_file(acc_data) # save imu data
+    time.sleep(10) # TODO: Check the time here
+    print("Mission Complete")
+    
+    # Close vehicle object
+    vehicle.close()
+
+except KeyboardInterrupt:
+    # Write the acceleration data to a file
+    vehicle.mode = VehicleMode("LAND")
+    imu.write_to_file(acc_data)
+
+
 
 
 

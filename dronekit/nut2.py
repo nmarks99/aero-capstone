@@ -5,7 +5,6 @@ import dklib
 import time
 import imu
 from dklib import clear_print
-import nut
 
 """
 SETUP
@@ -46,16 +45,15 @@ LEG_SERVO = 10 # TODO: check servo number
 
 # Take off in GUIDED_NOGPS mode.
 print("Taking off...")
-# dklib.takeoff(vehicle, target_altitude=5.0)
-nut.arm_and_takeoff_nogps(5)
+dklib.takeoff(vehicle,target_altitude=5.0)
 
 # Hold the position for 3 seconds.
 print("Holding position for 3 seconds")
-nut.set_attitude(duration = 3)
+dklib.set_attitude(duration = 3)
 
 # Cut motors
 print("Cut motors")
-nut.set_attitude(thrust=0.0)
+dklib.set_attitude(thrust=0.0)
 time.sleep(0.2)
 
 t0 = time.time() # time = 0 here
@@ -86,18 +84,18 @@ try:
                 
                 # Set throttle to 100%
                 print("Throttle set to 100%")
-                nut.set_attitude(thrust=1.0)
+                dklib.set_attitude(thrust=1.0)
 
             elif vehicle.location.global_relative_frame.alt <= 3.0:
                 print("PANIC! ABORT MISSION!")
-                nut.set_attitude(thrust=1.0)
+                dklib.set_attitude(thrust=1.0)
                 time.sleep(0.5)
                 vehicle.mode = dronekit.VehicleMode("ALT_HOLD")
         
         # Check if hover detected
         elif DROPPED:
             # Keep throttle at max until hover is detected
-            nut.set_attitude(thrust=1.0)
+            dklib.set_attitude(thrust=1.0)
             
             if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt > 5:
                 print("Hover achieved!")
