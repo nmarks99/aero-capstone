@@ -2,7 +2,6 @@ import board
 import busio
 import adafruit_bno055
 import os
-import random
 from numpy import sqrt
 
 def connect_imu():

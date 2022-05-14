@@ -14,14 +14,14 @@ SETUP
 PORT = "/dev/serial0" # Serial port on the Pi
 BAUD = 921600
 
-# Connect IMU
-IMU = imu.connect_imu()
-
 # Connect to the Pixhawk
 clear_print("Connecting...")
 vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 clear_print("Connected Successfully!\n\n")
 input("Press enter to continue")
+
+# Connect IMU
+IMU = imu.connect_imu()
 
 # Arm the vehicle
 while not vehicle.armed:
