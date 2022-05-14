@@ -34,8 +34,3 @@ def write_to_file(arr):
                 [ax,",",ay,",",az,",",t,"\n"]
             ))
     print("\nData saved to "+outfile)
-
-def debug():
-    a = [1,1,1]
-    return a
-
