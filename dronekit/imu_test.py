@@ -15,7 +15,7 @@ try:
         az = IMU.acceleration[3]
         amag = sqrt(ax**2 + ay**2 + az**2)
         data.append([ax,ay,az,amag,t_now])
-        print(ax, ay, az)
+        print(ax, ay, az,amag,t_now)
         time.sleep(0.05)
 except KeyboardInterrupt:
     imu.write_to_file(data)
