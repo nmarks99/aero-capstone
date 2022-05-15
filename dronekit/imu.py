@@ -23,6 +23,7 @@ def write_to_file(arr):
     name will be the current date and time and it will be stored
     in a folder in the current directory called "data"
     '''
+    assert(len(arr[0]) == 4), "Length of input data [0] is {} but should be 4".format(len(arr[0]))
     
     # Create a data folder if it doesn't exist
     if not os.path.isdir("./data/"):
