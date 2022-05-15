@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import imu
 import time
+from math import sqrt
 
 IMU = imu.connect_imu()
 
@@ -12,7 +13,8 @@ try:
         ax = IMU.acceleration[0]
         ay = IMU.acceleration[1]
         az = IMU.acceleration[3]
-        data.append([ax,ay,az,t_now])
+        amag = sqrt(ax**2 + ay**2 + az**2)
+        data.append([ax,ay,az,amag,t_now])
         print(ax, ay, az)
         time.sleep(0.05)
 except KeyboardInterrupt:

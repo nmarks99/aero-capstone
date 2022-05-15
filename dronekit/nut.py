@@ -14,6 +14,7 @@ from dronekit import connect, VehicleMode, LocationGlobal, LocationGlobalRelativ
 from pymavlink import mavutil # Needed for command message definitions
 import time
 import math
+import imu
 
 def arm_and_takeoff_nogps(aTargetAltitude):
     """
@@ -132,10 +133,6 @@ def to_quaternion(roll = 0.0, pitch = 0.0, yaw = 0.0):
 
     return [w, x, y, z]
 
-
-
-
-import imu
 
 # Connect to pixhawk
 vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
