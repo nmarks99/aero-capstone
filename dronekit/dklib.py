@@ -12,11 +12,6 @@ import math
 from pymavlink import mavutil
 
 
-def clear_print(msg):
-	os.system("clear || cls")
-	print(msg)
-
-
 def set_servo(vehicle, servo_number, pwm_value):
     '''
     set_servo turns a servo to the desired position, which is a value between 1000 and 2000
@@ -76,7 +71,7 @@ def send_attitude_target(vehicle, roll_angle = 0.0, pitch_angle = 0.0,
     vehicle.send_mavlink(msg)
 
 
-def set_attitude(roll_angle = 0.0, pitch_angle = 0.0,
+def set_attitude(vehicle,roll_angle = 0.0, pitch_angle = 0.0,
                 yaw_angle = None, yaw_rate = 0.0, use_yaw_rate = False,
                 thrust = 0.5, duration = 0):
     """
@@ -86,17 +81,17 @@ def set_attitude(roll_angle = 0.0, pitch_angle = 0.0,
     The code below should work on either version.
     Sending the message multiple times is the recommended way.
     """
-    send_attitude_target(roll_angle, pitch_angle,
+    send_attitude_target(vehicle, roll_angle, pitch_angle,
                             yaw_angle, yaw_rate, False,
                             thrust)
     start = time.time()
     while time.time() - start < duration:
-        send_attitude_target(roll_angle, pitch_angle,
+        send_attitude_target(vehicle, roll_angle, pitch_angle,
                                 yaw_angle, yaw_rate, False,
                                 thrust)
         time.sleep(0.1)
     # Reset attitude, or it will persist for 1s more due to the timeout
-    send_attitude_target(0, 0,
+    send_attitude_target(vehicle, 0, 0,
                             0, 0, True,
                             thrust)
 
