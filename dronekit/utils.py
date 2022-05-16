@@ -1,3 +1,7 @@
+import os
+
+
+
 escapes_dict = { 
     "RESET" : "\x1B[0m",
     "RED" : "\x1B[0;31m",
@@ -18,7 +22,7 @@ escapes_dict = {
 
 def color_print(text, color):
     '''
-    Color options are shown below:
+    Color options:
     "RED"
     "GREEN"
     "YELLLOW"
@@ -41,3 +45,8 @@ def color_print(text, color):
     reset = escapes_dict["RESET"]
     out_str = "".join([esc_code,text,reset])
     print(out_str)
+
+
+def clear_print(msg):
+	os.system("clear || cls")
+	print(msg)
