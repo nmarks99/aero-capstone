@@ -93,11 +93,11 @@ def main():
                     DROPPED = True
                     
                     # Deploy arms
-                    print("Arms deployed")
+                    color_print("Arms deployed","BOLD_RED")
                     dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
                     
                     # Set throttle to 100%
-                    print("Throttle set to 100%")
+                    color_print("Throttle set to 100%","BOLD_RED")
                     dklib.set_attitude(thrust=1.0)
 
                 elif vehicle.location.global_relative_frame.alt <= 3.0:
@@ -112,7 +112,7 @@ def main():
                 dklib.set_attitude(thrust=1.0)
                 
                 if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt >= TAKEOFF_ALTITUDE:
-                    print("Hover achieved!")
+                    color_print("Hover achieved","BOLD_RED")
 
                     # Deploy legs
                     # Hold position for 2 seconds
@@ -131,7 +131,7 @@ def main():
 
         imu.write_to_file(acc_data) # save imu data
         time.sleep(5) # TODO: Check the time here
-        print("Mission Complete")
+        color_print("Mission Complete","BOLD_GREEN")
         
         # Close vehicle object
         vehicle.close()
