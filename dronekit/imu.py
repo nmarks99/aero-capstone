@@ -4,7 +4,7 @@ import adafruit_bno055
 import os
 from math import sqrt
 
-def connect_imu():
+def connect():
     i2c = busio.I2C(board.SCL, board.SDA)
     imu = adafruit_bno055.BNO055_I2C(i2c)
     return imu

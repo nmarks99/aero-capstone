@@ -128,7 +128,7 @@ def takeoff(vehicle, target_altitude, default_takeoff_thrust=0.7):
     # Wait until we reach the target altitude
     while True:
         current_altitude = vehicle.location.global_relative_frame.alt
-        print("Altitude: {:.3f} m\tDesired: {:.3f} m".format(current_altitude, target_altitude))
+        # print("Altitude: {:.3f} m\tDesired: {:.3f} m".format(current_altitude, target_altitude))
 
         # Break when we get within 95% of the target
         if current_altitude >= target_altitude * 0.95:
