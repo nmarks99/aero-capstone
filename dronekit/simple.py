@@ -37,7 +37,7 @@ def main():
 
     # Take off in GUIDED_NOGPS mode.
     color_print("Taking off...","BOLD_RED")
-    TAKEOFF_ALTITUDE = 5
+    TAKEOFF_ALTITUDE = 3
     dklib.takeoff(vehicle,target_altitude=TAKEOFF_ALTITUDE)
 
     # Hold the position for 3 seconds.
