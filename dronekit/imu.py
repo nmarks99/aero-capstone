@@ -54,11 +54,6 @@ def imu_thread_func(data_arr,stop_thread):
             break
 
         time.sleep(FREQ)
-#
-#  stop_thread = False
-#  data_arr = []
-#  imu_thread = threading.Thread(target=imu_thread_func,args=(data_arr,))
-#  imu_thread.start()
 
 
 def write_to_file(arr):

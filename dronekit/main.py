@@ -6,7 +6,7 @@ import dklib
 import time
 import imu
 from utils import clear_print, color_print
-
+import threading
 
 def main():
 
@@ -36,6 +36,13 @@ def main():
         vehicle.armed = True
         time.sleep(1)
         color_print("Armed","BOLD_RED")
+
+    # Read IMU data in a separate thread and store it in a list
+    # Format is [[ax,ay,az,amag,timestamp]]
+    stop_thread = False
+    data_arr = []
+    imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr, lambda : stop_thread,))
+    imu_thread.start()
 
 
     """
@@ -68,24 +75,9 @@ def main():
     try:
         while True:
             
-            # Get current time and acceleration
-            # t_now = time.time() - t0
-            # (ax, ay, az, amag) = imu.read_acc(IMU)
-
-
-            # Trying this instead of the read_acc function
-            t_now = time.time() - t0
-            ax = IMU.acceleration[0]
-            ay = IMU.acceleration[1]
-            az = IMU.acceleration[3]
-            amag = sqrt(ax**2 + ay**2 + az**2)
-            acc_data.append([ax, ay, az, amag, t_now]) 
-
-            # Print out acceleration data
-            print(
-                "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-                .format(ax,ay,az,amag,t_now)
-            )
+            # Get acceleration magnitude from the acc_data array
+            # last list is the most recent since its running in parallel
+            amag = acc_data[-1][3] # 
 
             if not DROPPED:
                 # Check if drop detected
@@ -151,8 +143,15 @@ def main():
         vehicle.close()
 
 
+    # Stop the thread and write the IMU data to a text file
+    stop_thread = True
+    imu_thread.join()
+    imu.write_to_file(data_arr)
 
+    
 
 
 if __name__ == "__main__":
     main()
+
+
