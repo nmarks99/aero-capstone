@@ -123,7 +123,7 @@ def takeoff(vehicle, target_altitude, default_takeoff_thrust=0.7):
     print("Taking off...")
 
     # Set to takeoff thrust
-    set_attitude(thrust=default_takeoff_thrust)
+    set_attitude(vehicle,thrust=default_takeoff_thrust)
     
     # Wait until we reach the target altitude
     while True:
