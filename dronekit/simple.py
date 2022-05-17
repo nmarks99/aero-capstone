@@ -10,7 +10,7 @@ import threading
 
 def main():
     
-    #  stop_thread = False
+    stop_thread = False
     # Connect IMU and make a thread function
     IMU = imu.connect()
     t0 = time.time()
@@ -61,7 +61,7 @@ def main():
         # Take off in GUIDED_NOGPS mode.
         color_print("Taking off...","BOLD_RED")
         TAKEOFF_ALTITUDE = 2
-        dklib.takeoff(vehicle,target_altitude=TAKEOFF_ALTITUDE)
+        dklib.takeoff(vehicle,target_altitude=TAKEOFF_ALTITUDE,default_takeoff_thrust=1.0)
 
         # Hold the position for 3 seconds.
         print("Holding position for 3 seconds")
