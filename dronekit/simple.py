@@ -51,8 +51,14 @@ def main():
         input("")
         vehicle.close()
 
+
     except KeyboardInterrupt:
         vehicle.mode = dronekit.VehicleMode("LAND")
 
+
+
 if __name__ == "__main__":
     main()
+
+
+
