@@ -1,21 +1,65 @@
 import board
+import time
 import busio
 import adafruit_bno055
 import os
 from math import sqrt
 
 def connect():
+    '''
+    Connects to the BNO055 IMU over the Pi's I2C port
+    using Adafruit CicuitPython
+    '''
     i2c = busio.I2C(board.SCL, board.SDA)
     imu = adafruit_bno055.BNO055_I2C(i2c)
     return imu
 
 def read_acc(IMU):
+    '''
+    Reads from the accelerometer on the IMU and 
+    returns the x, y, z accelerations as well as 
+    the acceleration magnitude
+    '''
     ax = IMU.acceleration[0]
     ay = IMU.acceleration[1]
     az = IMU.acceleration[2]
     amag = sqrt(ax**2 + ay**2 + az**2)
     return (ax, ay, az, amag) 
-    
+
+
+def imu_thread_func(data_arr,stop_thread):
+    '''
+    Used to poll IMU data concurently as a separate thread
+    '''
+    assert(isinstance(data_arr,list)),"data_arr must be a list"
+
+    IMU = connect() 
+    t0 = time.time() # start time 
+    FREQ = 0.05 # measurement frequency
+    while True:
+        t = time.time() - t0 # current time 
+        ax,ay,az,amag = read_acc(IMU) # current accelerations
+        
+        # Print out acceleration data
+        print(
+            "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+            .format(ax,ay,az,amag,t)
+        )
+        
+        # Save data to the array
+        data_arr.append([ax,ay,az,amag,t])
+        
+        # Kill the thread if stop_thread is set to true
+        if stop_thread():
+            break
+
+        time.sleep(FREQ)
+#
+#  stop_thread = False
+#  data_arr = []
+#  imu_thread = threading.Thread(target=imu_thread_func,args=(data_arr,))
+#  imu_thread.start()
+
 
 def write_to_file(arr):
     '''

@@ -1,7 +1,5 @@
 import os
 
-
-
 escapes_dict = { 
     "RESET" : "\x1B[0m",
     "RED" : "\x1B[0;31m",
@@ -20,7 +18,7 @@ escapes_dict = {
     "BOLD_WHITE" : "\x1B[1;37m"
 }
 
-def color_print(text, color):
+def color_print(text, color, clear=False):
     '''
     Color options:
     "RED"
@@ -44,6 +42,11 @@ def color_print(text, color):
     esc_code = escapes_dict[color.upper()]
     reset = escapes_dict["RESET"]
     out_str = "".join([esc_code,text,reset])
+    
+    # Clear the screen first if requested
+    if clear:
+        os.system("clear || cls")
+
     print(out_str)
 
 
