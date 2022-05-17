@@ -43,7 +43,7 @@ def main():
 
     # Hold the position for 3 seconds.
     print("Holding position for 3 seconds")
-    dklib.set_attitude(duration = 3)
+    dklib.set_attitude(vehicle,duration = 3)
 
     # Land
     vehicle.mode = dronekit.VehicleMode("LAND")
