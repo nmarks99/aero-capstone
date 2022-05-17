@@ -135,3 +135,7 @@ def takeoff(vehicle, target_altitude, default_takeoff_thrust=0.7):
             print("Target altitude reached!")
             break
         time.sleep(0.2)
+
+
+
+

@@ -9,7 +9,8 @@ from utils import clear_print, color_print
 import threading
 
 def main():
-
+    
+    #  stop_thread = False
     # Connect IMU and make a thread function
     IMU = imu.connect()
     t0 = time.time()
@@ -45,7 +46,7 @@ def main():
         input("Press enter to continue")
 
         # Connect IMU
-        IMU = imu.connect_imu()
+        #  IMU = imu.connect_imu()
 
         # Set vehicle mode to GUIDED_NOGPS
         vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
