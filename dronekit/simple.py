@@ -34,6 +34,7 @@ def main():
         time.sleep(1)
         color_print("Armed","BOLD_RED")
 
+    input("Press enter to continue")
 
     # Take off in GUIDED_NOGPS mode.
     color_print("Taking off...","BOLD_RED")
