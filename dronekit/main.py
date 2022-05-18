@@ -25,7 +25,7 @@ def main():
     input("Press enter to continue")
 
     # Connect IMU
-    IMU = imu.connect_imu()
+    # IMU = imu.connect_imu()
 
     # Set vehicle mode to GUIDED_NOGPS
     vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
