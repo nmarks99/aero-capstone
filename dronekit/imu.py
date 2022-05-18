@@ -39,12 +39,7 @@ def imu_thread_func(data_arr,stop_thread):
     while True:
         t = time.time() - t0 # current time 
         ax,ay,az,amag = read_acc(IMU) # current accelerations
-        
-        # Print out acceleration data
-        print(
-            "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-            .format(ax,ay,az,amag,t)
-        )
+
         
         # Save data to the array
         data_arr.append([ax,ay,az,amag,t])
