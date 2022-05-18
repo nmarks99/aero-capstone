@@ -50,7 +50,7 @@ def imu_thread_func(data_arr,stop_thread):
         data_arr.append([ax,ay,az,amag,t])
         
         # Kill the thread if stop_thread is set to true
-        if stop_thread():
+        if stop_thread.is_set():
             break
 
         time.sleep(FREQ)
