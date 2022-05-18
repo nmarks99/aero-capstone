@@ -69,15 +69,25 @@ def main():
     dklib.set_attitude(thrust=0.0)
     time.sleep(0.2)
 
-    t0 = time.time() # time = 0 here
+    # t0 = time.time() # time = 0 here
     acc_data = [] # array to store acceleration data 
 
     try:
         while True:
             
             # Get acceleration magnitude from the acc_data array
-            # last list is the most recent since its running in parallel
-            amag = acc_data[-1][3] # This is most recent amag value
+            # last list is the most recent since its running in parallel            
+            ax = acc_data[-1][0]
+            ay = acc_data[-1][1] 
+            az = acc_data[-1][2] 
+            amag = acc_data[-1][3] 
+            t = acc_data[-1][4] 
+
+            # Print out acceleration data
+            print(
+                "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+                .format(ax,ay,az,amag,t)
+            )
 
             if not DROPPED:
                 # Check if drop detected
