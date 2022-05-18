@@ -39,9 +39,9 @@ def main():
 
     # Read IMU data in a separate thread and store it in a list
     # Format is [[ax,ay,az,amag,timestamp]]
-    stop_thread = False
+    stop_thread = threading.event()
     data_arr = []
-    imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr, lambda : stop_thread,))
+    imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr,stop_thread,))
     imu_thread.start()
 
 
@@ -77,7 +77,7 @@ def main():
             
             # Get acceleration magnitude from the acc_data array
             # last list is the most recent since its running in parallel
-            amag = acc_data[-1][3] # 
+            amag = acc_data[-1][3] # This is most recent amag value
 
             if not DROPPED:
                 # Check if drop detected
