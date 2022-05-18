@@ -40,8 +40,8 @@ def main():
     # Read IMU data in a separate thread and store it in a list
     # Format is [[ax,ay,az,amag,timestamp]]
     stop_thread = threading.event()
-    data_arr = []
-    imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr,stop_thread,))
+    acc_data = []
+    imu_thread = threading.Thread(target=imu.imu_thread_func,args=(acc_data,stop_thread,))
     imu_thread.start()
 
 
@@ -68,9 +68,6 @@ def main():
     print("Cut motors")
     dklib.set_attitude(thrust=0.0)
     time.sleep(0.2)
-
-    # t0 = time.time() # time = 0 here
-    acc_data = [] # array to store acceleration data 
 
     try:
         while True:
