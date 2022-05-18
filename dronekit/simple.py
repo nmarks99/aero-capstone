@@ -25,9 +25,9 @@ def main():
 
         # Read IMU data in a separate thread and store it in a list
         # Format is [[ax,ay,az,amag,timestamp]]
-        stop_thread = False
+        stop_thread = threading.event()
         data_arr = []
-        imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr, lambda : stop_thread,))
+        imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr,stop_thread,))
         imu_thread.start()
 
         # Set vehicle mode to GUIDED_NOGPS
@@ -67,7 +67,7 @@ def main():
             time.sleep(1)
     
     # Stop the thread and write the IMU data to a text file
-    stop_thread = True
+    stop_thread.set()
     imu_thread.join()
     imu.write_to_file(data_arr)
 
