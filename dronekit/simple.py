@@ -61,14 +61,16 @@ def main():
     except KeyboardInterrupt:
         color_print("PANIC! ABORT MISSION")
         vehicle.mode = dronekit.VehicleMode("LAND")
-        time.sleep(2)
+        time.sleep(3) 
         while True:
             dklib.set_attitude(thrust=0.0)
             time.sleep(1)
     
-    # Stop the thread and write the IMU data to a text file
+    # Stop the thread
     stop_thread.set()
     imu_thread.join()
+
+    # Write IMU data to file
     imu.write_to_file(data_arr)
 
 
