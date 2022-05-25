@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import random
-import numpy as np
 import os 
-from datetime import datetime
 import time
 import sys
 import utils
@@ -92,13 +90,19 @@ def write_to_file(arr):
     name will be the current date and time and it will be stored
     in a folder in the current directory called "data"
     '''
-    data_dir = "./data/"
-    outfile = utils.gen_unique_filename("out", ".txt", data_dir)
-    outfile = "".join([data_dir,outfile])
+
+    data_dir = "./data/" # folder to store the data 
 
     # Create a data folder if it doesn't exist
-    if not os.path.isdir("./data/"):
+    if not os.path.isdir(data_dir):
         os.system("mkdir data")
+
+    # Generate a unique filename for the data to be saved as
+    name = "out"
+    extension = ".txt"
+    outfile = utils.gen_unique_filename(name, extension, data_dir)
+    outfile = "".join([data_dir,outfile])
+
 
     # write the data to a file saved in ./data/
     # each file is a csv .txt file with format DATA, TIMESTAMP
