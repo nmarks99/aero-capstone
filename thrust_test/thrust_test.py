@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import time
 import sys
+import utils
 
 # Passing "debug" as an cmd line input argument will print random numbers instead 
 # of actually reading load cell. Good for debugging.
@@ -91,11 +92,10 @@ def write_to_file(arr):
     name will be the current date and time and it will be stored
     in a folder in the current directory called "data"
     '''
+    data_dir = "./data/"
+    outfile = utils.gen_unique_filename("out", ".txt", data_dir)
+    outfile = "".join([data_dir,outfile])
 
-    now = datetime.now()
-    dt_str = now.strftime("%b-%d_%Hhr-%Mmin-%Ssec")
-    outfile = "".join(["data/",dt_str,'.txt'])
-    
     # Create a data folder if it doesn't exist
     if not os.path.isdir("./data/"):
         os.system("mkdir data")
@@ -105,8 +105,7 @@ def write_to_file(arr):
     with open(outfile,"w+") as of:
         for line in arr:      
             of.write("".join([line[0],",",line[1],"\n"]))
-    print("\nData saved to "+outfile)
-
+    utils.color_print("".join(["\nData saved to ",outfile]),"BOLD_YELLOW")
 
 
 def throttle(val):
@@ -121,8 +120,6 @@ def throttle(val):
     # pwm_freq = 8000 + 10000*val
     # pi.set_PWM_frequency(ESC,int(pwm_freq))
     
-
-
 
 
 # =================================
@@ -149,4 +146,5 @@ try:
 
 except KeyboardInterrupt:
     write_to_file(data_arr)
-    throttle(0.0)
+    if FLAG:
+        throttle(0.0)
