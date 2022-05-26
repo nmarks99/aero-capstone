@@ -11,7 +11,7 @@ escapes_dict = {
     "WHITE" : "\x1B[0;37m",
     "BOLD_RED" : "\x1B[1;31m",
     "BOLD_GREEN" : "\x1B[1;32m",
-    "BOLD_YELLLOW" : "\x1B[1;33m",
+    "BOLD_YELLOW" : "\x1B[1;33m",
     "BOLD_BLUE" : "\x1B[1;34m",
     "BOLD_MAGENTA" : "\x1B[1;35m",
     "BOLD_CYAN" : "\x1B[1;36m",
@@ -23,7 +23,7 @@ def color_print(text, color, clear=False):
     Color options:
     "RED"
     "GREEN"
-    "YELLLOW"
+    "YELLOW"
     "BLUE"
     "MAGENTA"
     "CYAN"
