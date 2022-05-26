@@ -27,8 +27,7 @@ def read_acc(IMU):
         #  amag = sqrt(ax**2 + ay**2 + az**2)
     except:
         print("Failed to read imu data")
-
-    return (ax, ay, az, amag) 
+    return (ax, ay, az) 
 
 
 def imu_thread_func(data_arr,stop_thread):
