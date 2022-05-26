@@ -33,7 +33,10 @@ imu_thread.start()
 try:
     while True:
         time.sleep(0.075)
-        print(acc_data)
+        if not acc_data:
+            pass
+        else:
+            print(acc_data)
 except KeyboardInterrupt:
     stop_thread.set()
 
