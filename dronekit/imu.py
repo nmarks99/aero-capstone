@@ -20,10 +20,14 @@ def read_acc(IMU):
     returns the x, y, z accelerations as well as 
     the acceleration magnitude
     '''
-    ax = IMU.acceleration[0]
-    ay = IMU.acceleration[1]
-    az = IMU.acceleration[2]
-    amag = sqrt(ax**2 + ay**2 + az**2)
+    try:
+        ax = IMU.acceleration[0]
+        ay = IMU.acceleration[1]
+        az = IMU.acceleration[2]
+        amag = sqrt(ax**2 + ay**2 + az**2)
+    except:
+        print("Failed to read imu data")
+
     return (ax, ay, az, amag) 
 
 
