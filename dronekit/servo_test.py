@@ -9,6 +9,8 @@ color_print("Connecting...", "BOLD_YELLOW")
 v = dronekit.connect("/dev/serial0",baud=921600,wait_ready=True)
 color_print("Connected!","BOLD_RED")
 
+input("Press enter to spin servo")
 dklib.set_servo(v, 9, "HIGH")
+
 
 
