@@ -25,7 +25,7 @@ import threading
 #
 #
 
-stop_thread = threading.event()
+stop_thread = threading.Event()
 acc_data = []
 imu_thread = threading.Thread(target=imu.imu_thread_func,args=(acc_data,stop_thread,))
 imu_thread.start()
