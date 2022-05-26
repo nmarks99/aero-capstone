@@ -24,7 +24,7 @@ def read_acc(IMU):
         ax = IMU.acceleration[0]
         ay = IMU.acceleration[1]
         az = IMU.acceleration[2]
-        amag = sqrt(ax**2 + ay**2 + az**2)
+        #  amag = sqrt(ax**2 + ay**2 + az**2)
     except:
         print("Failed to read imu data")
 
