@@ -39,9 +39,12 @@ try:
         time.sleep(0.075)
         if len(acc_data) > 0:
             os.system("clear")
-            ax = round(acc_data[-1][0],3)
-            ay = round(acc_data[-1][1],3)
-            az = round(acc_data[-1][2],2) 
+            try:
+                ax = round(acc_data[-1][0],3)
+                ay = round(acc_data[-1][1],3)
+                az = round(acc_data[-1][2],2)
+            except:
+                utils.color_print("Missed data point","BOLD_RED")
             print(ax,ay,az)
 
 
