@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
+import os
 import utils
 import imu
 import time
 from math import sqrt
 import threading
+import utils
+
+
 #
 #  IMU = imu.connect_imu()
 #
@@ -34,7 +38,9 @@ try:
     while True:
         time.sleep(0.075)
         if len(acc_data) > 0:
+            os.system("clear")
             print(acc_data[-1])
+
 
 except KeyboardInterrupt:
     stop_thread.set()
