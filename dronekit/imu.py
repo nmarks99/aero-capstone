@@ -41,7 +41,7 @@ def imu_thread_func(data_arr,stop_thread):
     FREQ = 0.05 # measurement frequency
     while True:
         t = time.time() - t0 # current time 
-        ax,ay,az,amag = read_acc(IMU) # current accelerations
+        ax,ay,az = read_acc(IMU) # current accelerations
 
         
         # Save data to the array
