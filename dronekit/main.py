@@ -8,6 +8,7 @@ import imu
 from utils import clear_print, color_print
 import threading
 
+
 def main():
 
     """
@@ -39,7 +40,7 @@ def main():
 
     # Read IMU data in a separate thread and store it in a list
     # Format is [[ax,ay,az,amag,timestamp]]
-    stop_thread = threading.event()
+    stop_thread = threading.Event()
     acc_data = []
     imu_thread = threading.Thread(target=imu.imu_thread_func,args=(acc_data,stop_thread,))
     imu_thread.start()
@@ -70,21 +71,36 @@ def main():
     time.sleep(0.2)
 
     try:
+
+        if len(acc_data) > 0:
+            try:
+                ax = round(acc_data[-1][0],3)
+                ay = round(acc_data[-1][1],3)
+                az = round(acc_data[-1][2],3)
+            except:
+                color_print("Missed data point","BOLD_RED")
+            print(ax,ay,az)
+
         while True:
             
             # Get acceleration magnitude from the acc_data array
             # last list is the most recent since its running in parallel            
-            ax = acc_data[-1][0]
-            ay = acc_data[-1][1] 
-            az = acc_data[-1][2] 
-            amag = acc_data[-1][3] 
-            t = acc_data[-1][4] 
-
-            # Print out acceleration data
-            print(
-                "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-                .format(ax,ay,az,amag,t)
-            )
+            if len(acc_data) > 0:
+                try:
+                    ax = round(acc_data[-1][0])
+                    ay = round(acc_data[-1][1])
+                    az = round(acc_data[-1][2])
+                    t = acc_data[-1][4]
+                    amag = sqrt(ax**2 + ay**2 + az**2)
+                    
+                    # Print out acceleration data
+                    print(
+                        "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+                        .format(ax,ay,az,amag,t)
+                    )
+                
+                except:
+                    color_print("Missed IMU data point","BOLD_RED")
 
             if not DROPPED:
                 # Check if drop detected
