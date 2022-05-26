@@ -39,12 +39,14 @@ try:
         time.sleep(0.075)
         if len(acc_data) > 0:
             os.system("clear")
-            print(acc_data[-1])
+            ax = round(acc_data[-1][0],3)
+            ay = round(acc_data[-1][1],3)
+            az = round(acc_data[-1][2],2) 
+            print(ax,ay,az)
 
 
 except KeyboardInterrupt:
     stop_thread.set()
-
 
 
 
