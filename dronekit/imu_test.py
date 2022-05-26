@@ -20,7 +20,7 @@ try:
             try:
                 ax = round(acc_data[-1][0],3)
                 ay = round(acc_data[-1][1],3)
-                az = round(acc_data[-1][2],2)
+                az = round(acc_data[-1][2],3)
             except:
                 utils.color_print("Missed data point","BOLD_RED")
             print(ax,ay,az)
