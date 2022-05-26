@@ -17,6 +17,8 @@ if len(sys.argv) == 2:
             throttle_val = float(sys.argv[1])
         except:
             raise ValueError("Input throttle value cannot be converted to float")
+elif len(sys.argv) == 1:
+    throttle_val = 0.0
 elif len(sys.argv) != 1:
     raise ValueError('Invalid number of inputs')
 
@@ -27,7 +29,7 @@ if FLAG:
     import RPi.GPIO as gpio
     import pigpio
 
-    pi = pigpio.pi()
+    pi = pigpio.pi()    
     ESC = 4 # ESC connected to GPIO pin #4
     pi.set_servo_pulsewidth(ESC,0) # initially set pulse width to zero
 
@@ -67,7 +69,7 @@ def read_data(DATA_FLAG):
         
         # Divisor and subtractor constants
         DIV = 37142
-        SUB = 8206209.82
+        SUB = 8259177
 
         gpio.output(SCK,1)
         Count = Count^0x800000
@@ -116,6 +118,8 @@ def throttle(val):
     assert(val >= 0 and val <= 1), 'Throttle is a value between 0(min) and 1 (max)'
     pulse_width = 1000 + 1000*val
     pi.set_servo_pulsewidth(ESC,pulse_width)
+    # pwm_freq = 8000 + 10000*val
+    # pi.set_PWM_frequency(ESC,int(pwm_freq))
     
 
 
@@ -128,7 +132,6 @@ def throttle(val):
 data_arr = []       # array to store data 
 t0 = time.time()    # start time
 freq = 0.01        # measurement frequency
-# throttle_val = 0.9  # throttle between 0 (min) and 1 (max)
 
 try:
     while(True): 
