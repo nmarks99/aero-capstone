@@ -32,7 +32,7 @@ imu_thread.start()
 
 try:
     while True:
-        time.sleep(0.5)
+        time.sleep(0.075)
         print(acc_data[-1][1])
 except KeyboardInterrupt:
     stop_thread.set()
