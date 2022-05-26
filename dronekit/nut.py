@@ -140,21 +140,23 @@ vehicle = connect("/dev/serial0",baud=921600,wait_ready=True)
 input("Press enter to continue")
 
 # Take off 2.5m in GUIDED_NOGPS mode.
-arm_and_takeoff_nogps(10.0)
+arm_and_takeoff_nogps(2.0)
 
 # Hold the position for 3 seconds.
 print("Hold position for 3 seconds")
 set_attitude(duration = 3)
 
+
+
 IMU = imu.connect_imu()
 
-#  # Set thrust to 0
-#  set_attitude(thrust=0.0,duration=0.2)
-#  set_attitude(thrust=1.0,duration=0.2)
+  # Set thrust to 0
+#set_attitude(thrust=0.0,duration=0.2)
+#set_attitude(thrust=1.0,duration=0.2)
 
 # Hold altitude at wherever it is at now
-#vehicle.mode = VehicleMode("ALT_HOLD")
-#  time.sleep(3)
+vehicle.mode = VehicleMode("ALT_HOLD")
+time.sleep(3)
 
 
 
@@ -173,13 +175,13 @@ try:
         # Get current time and acceleration
         t_now = time.time() - t0
         (ax, ay, az, amag) = imu.read_acc(IMU)
-        #  acc_data.append([ax, ay, az, amag, t_now])
+        acc_data.append([ax, ay, az, amag, t_now])
 
-        # Print out acceleration data
-        #  print(
-            #  "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-            #  .format(ax,ay,az,amag,t_now)
-        #  )
+#         Print out acceleration data
+#          print(
+#              "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+#              .format(ax,ay,az,amag,t_now)
+#          )
 
         print(ax, ay, az, amag, t_now)
 
@@ -190,9 +192,8 @@ try:
                  
                 # Deploy arms
                 print("Arms deployed")
-                # dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
-                
-                # Set throttle to 100%
+                dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
+                                # Set throttle to 100%
                 print("Throttle set to 100%")
                 set_attitude(thrust=1.0)
 
@@ -227,9 +228,9 @@ try:
 
         time.sleep(0.05) # TODO: check if this delay is sufficient
 
-    imu.write_to_file(acc_data) # save imu data
-    time.sleep(10) # TODO: Check the time here
-    print("Mission Complete")
+#    imu.write_to_file(acc_data) # save imu data
+#    time.sleep(10) # TODO: Check the time here
+#    print("Mission Complete")
     
     # Close vehicle object
     vehicle.close()
