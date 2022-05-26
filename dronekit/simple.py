@@ -6,7 +6,7 @@ import dklib
 import time
 import imu
 from utils import clear_print, color_print
-import threading
+#import threading
 
 
 
@@ -25,10 +25,10 @@ def main():
 
         # Read IMU data in a separate thread and store it in a list
         # Format is [[ax,ay,az,amag,timestamp]]
-        stop_thread = threading.event()
+#        stop_thread = threading.event()
         data_arr = []
-        imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr,stop_thread,))
-        imu_thread.start()
+#        imu_thread = threading.Thread(target=imu.imu_thread_func,args=(data_arr,stop_thread,))
+#        imu_thread.start()
 
         # Set vehicle mode to GUIDED_NOGPS
         vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
@@ -42,7 +42,7 @@ def main():
 
         # Take off in GUIDED_NOGPS mode.
         color_print("Taking off...","BOLD_RED")
-        TAKEOFF_ALTITUDE = 2
+        TAKEOFF_ALTITUDE = 1
         dklib.takeoff(vehicle,target_altitude=TAKEOFF_ALTITUDE,default_takeoff_thrust=1.0)
 
         # Hold the position for 3 seconds.
@@ -55,6 +55,7 @@ def main():
         # Close when user is ready
         color_print("Mission Complete. Press enter to close vehicle", "BOLD_GREEN")
         input("")
+        vehicle.mode = dronekit.VehicleMode("STABILIZE")
         vehicle.close()
 
 
@@ -62,20 +63,20 @@ def main():
         color_print("PANIC! ABORT MISSION")
         vehicle.mode = dronekit.VehicleMode("LAND")
         time.sleep(3) 
-        while True:
-            dklib.set_attitude(thrust=0.0)
-            time.sleep(1)
+#        while True:
+#            dklib.set_attitude(thrust=0.0)
+#            time.sleep(1)
     
     # Stop the thread
-    stop_thread.set()
-    imu_thread.join()
+#    stop_thread.set()
+#    imu_thread.join()
 
     # Write IMU data to file
-    imu.write_to_file(data_arr)
+#    imu.write_to_file(data_arr)
 
 
 if __name__ == "__main__":
     main()
-
+	
 
 
