@@ -5,7 +5,7 @@ from math import sqrt
 import dklib
 import time
 import imu
-from utils import clear_print, color_print
+from utils import brint 
 import threading
 
 
@@ -20,23 +20,20 @@ def main():
     BAUD = 921600
 
     # Connect to the Pixhawk
-    clear_print("Connecting...")
+    brint("Connecting...",clear=True)
     vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
-    color_print("Connected Successfully!\n\n","BOLD_RED")
+    brint("Connected Successfully!\n\n",color="BOLD_RED")
     input("Press enter to continue")
-
-    # Connect IMU
-    # IMU = imu.connect_imu()
 
     # Set vehicle mode to GUIDED_NOGPS
     vehicle.mode = dronekit.VehicleMode("GUIDED_NOGPS")
 
     # Arm the vehicle
     while not vehicle.armed:
-        clear_print("Waiting to arm...")
+        brint("Waiting to arm...",clear=True)
         vehicle.armed = True
         time.sleep(1)
-        color_print("Armed","BOLD_RED")
+        brint("Armed",color="BOLD_RED")
 
     # Read IMU data in a separate thread and store it in a list
     # Format is [[ax,ay,az,amag,timestamp]]
@@ -71,26 +68,17 @@ def main():
     time.sleep(0.2)
 
     try:
-
-        if len(acc_data) > 0:
-            try:
-                ax = round(acc_data[-1][0],3)
-                ay = round(acc_data[-1][1],3)
-                az = round(acc_data[-1][2],3)
-            except:
-                color_print("Missed data point","BOLD_RED")
-            print(ax,ay,az)
-
+        
         while True:
             
             # Get acceleration magnitude from the acc_data array
-            # last list is the most recent since its running in parallel            
+            # last list is the most recent since its running in parallel 
             if len(acc_data) > 0:
                 try:
-                    ax = round(acc_data[-1][0])
-                    ay = round(acc_data[-1][1])
-                    az = round(acc_data[-1][2])
-                    t = acc_data[-1][4]
+                    ax = round(acc_data[-1][0],4)
+                    ay = round(acc_data[-1][1],4)
+                    az = round(acc_data[-1][2],4)
+                    t = acc_data[-1][3]
                     amag = sqrt(ax**2 + ay**2 + az**2)
                     
                     # Print out acceleration data
@@ -98,9 +86,10 @@ def main():
                         "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
                         .format(ax,ay,az,amag,t)
                     )
-                
+
                 except:
-                    color_print("Missed IMU data point","BOLD_RED")
+                    brint("Missed IMU data point",color="BOLD_RED")
+                    
 
             if not DROPPED:
                 # Check if drop detected
@@ -108,15 +97,15 @@ def main():
                     DROPPED = True
                     
                     # Deploy arms
-                    color_print("Arms deployed","BOLD_RED")
+                    brint("Arms deployed",color="BOLD_RED")
                     dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
                     
                     # Set throttle to 100%
-                    color_print("Throttle set to 100%","BOLD_RED")
+                    brint("Throttle set to 100%",color="BOLD_RED")
                     dklib.set_attitude(thrust=1.0)
 
                 elif vehicle.location.global_relative_frame.alt <= 3.0:
-                    color_print("PANIC! ABORT MISSION!","BOLD_RED")
+                    brint("PANIC! ABORT MISSION!",color="BOLD_RED")
                     dklib.set_attitude(thrust=1.0)
                     time.sleep(0.5)
                     vehicle.mode = dronekit.VehicleMode("ALT_HOLD")
@@ -127,11 +116,11 @@ def main():
                 dklib.set_attitude(thrust=1.0)
                 
                 if amag <= HOVER_THRESHOLD or vehicle.location.global_relative_frame.alt >= TAKEOFF_ALTITUDE:
-                    color_print("Hover achieved","BOLD_RED")
+                    brint("Hover achieved",color="BOLD_RED")
 
                     # Deploy legs
                     # Hold position for 2 seconds
-                    color_print("Legs deployed","BOLD_RED")
+                    brint("Legs deployed",color="BOLD_RED")
                     dklib.set_servo(vehicle, LEG_SERVO, "HIGH")
 
                     # Hold altitude here
@@ -146,14 +135,14 @@ def main():
 
         imu.write_to_file(acc_data) # save imu data
         time.sleep(5) # TODO: Check the time here
-        color_print("Mission Complete","BOLD_GREEN")
+        brint("Mission Complete",color="BOLD_GREEN")
         
         # Close vehicle object
         vehicle.close()
 
 
     except KeyboardInterrupt:
-        color_print("KEYBOARD INTERRUPT\nABORTING MISSION\nLANDING...","BOLD_RED")
+        brint("KEYBOARD INTERRUPT\nABORTING MISSION\nLANDING...",color="BOLD_RED")
         
         # Set vehicle to land
         vehicle.mode = dronekit.VehicleMode("LAND")
@@ -169,9 +158,7 @@ def main():
     # Stop the thread and write the IMU data to a text file
     stop_thread = True
     imu_thread.join()
-    imu.write_to_file(data_arr)
-
-    
+    imu.write_to_file(acc_data)
 
 
 if __name__ == "__main__":
