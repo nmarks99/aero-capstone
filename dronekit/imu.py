@@ -4,6 +4,10 @@ import busio
 import adafruit_bno055
 import os
 from math import sqrt
+import sys
+sys.path.append("../")
+from utils import brint
+from utils import gen_unique_filename
 
 def connect():
     '''
@@ -24,11 +28,10 @@ def read_acc(IMU):
         ax = IMU.acceleration[0]
         ay = IMU.acceleration[1]
         az = IMU.acceleration[2]
-        if ax and ay and az:
-            amag = sqrt(ax**2 + ay**2 + az**2)
+        amag = sqrt(ax**2 + ay**2 + az**2)
+        return (ax, ay, az,amag) 
     except:
-        print("Failed to read imu data")
-    return (ax, ay, az) 
+        brint("Warning: Missed IMU data point",color="BOLD_YELLOW")
 
 
 def imu_thread_func(data_arr,stop_thread):
@@ -39,20 +42,20 @@ def imu_thread_func(data_arr,stop_thread):
 
     IMU = connect() 
     t0 = time.time() # start time 
-    FREQ = 0.05 # measurement frequency
+    FREQ = 20 # measurement frequency in Hz
     while True:
         t = time.time() - t0 # current time 
-        ax,ay,az = read_acc(IMU) # current accelerations
+        ax,ay,az,amag = read_acc(IMU) # current accelerations
 
-        
         # Save data to the array
-        data_arr.append([ax,ay,az,t])
+        if ax and ay and az and amag:
+            data_arr.append([ax,ay,az,t])
         
         # Kill the thread if stop_thread is set to true
         if stop_thread.is_set():
             break
 
-        time.sleep(FREQ)
+        time.sleep(1/FREQ)
 
 
 def write_to_file(arr):
@@ -61,16 +64,15 @@ def write_to_file(arr):
     name will be the current date and time and it will be stored
     in a folder in the current directory called "data"
     '''
-    assert(len(arr[0]) == 4), "Length of input data [0] is {} but should be 4".format(len(arr[0]))
+    assert(len(arr[0]) == 5), "Length of input data[0] is {} but should be 5".format(len(arr[0]))
     
     # Create a data folder if it doesn't exist
     if not os.path.isdir("./data/"):
         os.system("mkdir data")
     
-    outfile = "data/out.txt"
+    outfile = gen_unique_filename("imu_data", ".txt",directory="./data/")
 
-    # write the data to a file saved in ./data/
-    # each file is a csv .txt file with format (ax,ay,az,time)
+    # each file is a csv .txt file with format (ax,ay,az,amag,time)
     with open(outfile,"w+") as of:
         for line in arr:
             ax = str(line[0])
@@ -82,3 +84,4 @@ def write_to_file(arr):
                 [ax,",",ay,",",az,",",amag,",",t,"\n"]
             ))
     print("\nData saved to "+outfile)
+

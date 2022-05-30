@@ -14,7 +14,6 @@ def gen_unique_filename(default_name,extension, directory="./"):
         print(name)
         if default_name in name:
             f = True
-            print("aha")
             for ch in name:
                 if ch.isdigit():
                     nums.append(int(ch))
@@ -44,7 +43,7 @@ def brint(text, color=None, clear=False):
     "WHITE"
     "BOLD_RED"
     "BOLD_GREEN"
-    "BOLD_YELLLOW"
+    "BOLD_YELLOW"
     "BOLD_BLUE"
     "BOLD_MAGENTA"
     "BOLD_CYAN"

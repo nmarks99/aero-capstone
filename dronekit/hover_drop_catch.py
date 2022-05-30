@@ -74,18 +74,21 @@ def main():
             # Get acceleration magnitude from the acc_data array
             # last list is the most recent since its running in parallel 
             if len(acc_data) > 0:
-                ax = round(acc_data[-1][0],4)
-                ay = round(acc_data[-1][1],4)
-                az = round(acc_data[-1][2],4)
-                amag = round(acc_data[-1][3],4)
-                t = round(acc_data[-1][4],4)
-                
-                # Print out acceleration data
-                print(
-                    "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
-                    .format(ax,ay,az,amag,t)
-                )
+                try:
+                    ax = round(acc_data[-1][0],4)
+                    ay = round(acc_data[-1][1],4)
+                    az = round(acc_data[-1][2],4)
+                    t = acc_data[-1][3]
+                    amag = sqrt(ax**2 + ay**2 + az**2)
+                    
+                    # Print out acceleration data
+                    print(
+                        "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
+                        .format(ax,ay,az,amag,t)
+                    )
 
+                except:
+                    brint("Missed IMU data point",color="BOLD_RED")
                     
 
             if not DROPPED:
