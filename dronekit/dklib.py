@@ -138,4 +138,7 @@ def takeoff(vehicle, target_altitude, default_takeoff_thrust=0.7):
 
 
 
+def connect():
+    vehicle = dronekit.connect("/dev/serial0",baud=921600,wait_ready=True)
+    return vehicle
 
