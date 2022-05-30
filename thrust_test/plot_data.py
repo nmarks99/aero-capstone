@@ -6,7 +6,7 @@ import sys
 import glob
 import os
 import scipy.signal as sig
-
+import numpy as np
 
 if len(sys.argv) == 1:
     # Import data with file dialog if needed
@@ -34,12 +34,13 @@ with open(dataPath,"r") as f:
         force.append(float(line[0]))
         time.append(float(line[1]))
         
+# Median filter the force data twice
 force = sig.medfilt(force,5)
 force = sig.medfilt(force,5)
 
 plt.style.use('ggplot')
 fig, ax = plt.subplots(figsize=(10,7))
-ax.plot(time,force,"-ro")
+ax.plot(time,force,"-bo")
 ax.set(xlabel="Time(s)", ylabel="Thrust(N)", title="Thrust vs. Time")
 plt.show()
 
