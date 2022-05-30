@@ -14,7 +14,6 @@ def gen_unique_filename(default_name,extension, directory="./"):
         print(name)
         if default_name in name:
             f = True
-            print("aha")
             for ch in name:
                 if ch.isdigit():
                     nums.append(int(ch))
