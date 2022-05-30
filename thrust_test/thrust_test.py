@@ -3,7 +3,9 @@ import random
 import os 
 import time
 import sys
-import utils
+sys.path.append("../")
+from utils import brint
+from utils import gen_unique_filename
 
 # Passing "debug" as an cmd line input argument will print random numbers instead 
 # of actually reading load cell. Good for debugging.
@@ -100,7 +102,7 @@ def write_to_file(arr):
     # Generate a unique filename for the data to be saved as
     name = "out"
     extension = ".txt"
-    outfile = utils.gen_unique_filename(name, extension, data_dir)
+    outfile = gen_unique_filename(name, extension, data_dir)
     outfile = "".join([data_dir,outfile])
 
 
@@ -109,7 +111,7 @@ def write_to_file(arr):
     with open(outfile,"w+") as of:
         for line in arr:      
             of.write("".join([line[0],",",line[1],"\n"]))
-    utils.color_print("".join(["\nData saved to ",outfile]),"BOLD_YELLOW")
+    brint("".join(["\nData saved to ",outfile]),color="BOLD_YELLOW")
 
 
 def throttle(val):
