@@ -31,6 +31,7 @@ def gen_unique_filename(default_name,extension, directory="./"):
 
     return outfile
 
+
 def brint(text, color=None, clear=False):
     '''
     Color options:
