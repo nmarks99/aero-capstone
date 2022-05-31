@@ -123,6 +123,7 @@ def throttle(val):
     assert(val >= 0 and val <= 1), 'Throttle is a value between 0(min) and 1 (max)'
     pulse_width = 1000 + 1000*val
     pi.set_servo_pulsewidth(ESC,pulse_width)
+    # Default frequency is 50 Hz
     # pwm_freq = 8000 + 10000*val
     # pi.set_PWM_frequency(ESC,int(pwm_freq))
     
