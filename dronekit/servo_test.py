@@ -5,7 +5,7 @@ import dronekit
 v = dronekit.connect("/dev/serial0",baud=921600,wait_ready=True)
 
 input("Press enter to spin servo")
-dklib.set_servo(v, 9, "HIGH")
+dklib.set_servo(v, 9, "LOW")
 
 
 
