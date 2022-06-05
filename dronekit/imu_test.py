@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import os
+import sys
+sys.path.append("../")
 import utils
 import imu
 import time
 from math import sqrt
 import threading
-import utils
+
 
 stop_thread = threading.Event()
 acc_data = []
