@@ -18,9 +18,9 @@ def set_servo(vehicle, servo_number, pwm_value):
     '''    
     assert(isinstance(pwm_value,int) or isinstance(pwm_value,str)),'pwm_value must be an integer between 1000 and 2000 or "low", "mid", and "high"'
     values = {
-        "low": 1000,
+        "low": 400,
         "mid": 1500,
-        "high": 2000
+        "high": 2600
     } 
 
     if isinstance(pwm_value,str):
