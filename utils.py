@@ -7,6 +7,11 @@ def gen_unique_filename(default_name,extension, directory="./"):
     name already exists, the generated string will be "default_name_1.extension". If that 
     already exists, the string will be "default_name_2.extension" and so on.
     '''
+    
+    # Create a data folder if it doesn't exist
+    if directory != "./":
+        if not os.path.isdir(directory):
+            os.system("".join(["mkdir ",directory]))
      
     contents = os.listdir(directory)
     nums = []
