@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ssh aero@192.168.104.97
+ssh aero@10.106.17.191
