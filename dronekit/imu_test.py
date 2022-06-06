@@ -24,12 +24,14 @@ try:
                 ay = round(acc_data[-1][1],3)
                 az = round(acc_data[-1][2],3)
             except:
-                utils.color_print("Missed data point","BOLD_RED")
+                utils.brint("Missed data point",color="BOLD_RED")
             print(ax,ay,az)
 
 
 except KeyboardInterrupt:
+    imu.write_to_file(acc_data)
     stop_thread.set()
+
 
 
 
