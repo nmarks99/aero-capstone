@@ -66,10 +66,10 @@ def write_to_file(arr):
     '''
     assert(len(arr[0]) == 5), "Length of input data[0] is {} but should be 5".format(len(arr[0]))
     
-    # Create a data folder if it doesn't exist
-    if not os.path.isdir("./data/"):
-        os.system("mkdir data")
-    
+    #  # Create a data folder if it doesn't exist
+    #  if not os.path.isdir("./data/"):
+        #  os.system("mkdir data")
+    #
     outfile = gen_unique_filename("imu_data", ".txt",directory="./data/")
 
     # each file is a csv .txt file with format (ax,ay,az,amag,time)
