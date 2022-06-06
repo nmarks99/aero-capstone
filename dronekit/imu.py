@@ -49,7 +49,7 @@ def imu_thread_func(data_arr,stop_thread):
 
         # Save data to the array
         if ax and ay and az and amag:
-            data_arr.append([ax,ay,az,t])
+            data_arr.append([ax,ay,az,amag,t])
         
         # Kill the thread if stop_thread is set to true
         if stop_thread.is_set():
