@@ -17,16 +17,16 @@ BAUD = 921600
 brint("Connecting...",color="BOLD_YELLOW",clear=True)
 vehicle = dronekit.connect(PORT, baud=BAUD, wait_ready=True)
 brint("Connected Successfully!\n\n",color="BOLD_GREEN",clear=True)
-
-# Stow arms and legs before starting 
-dklib.set_servo(vehicle,9,"OPEN")
-brint("Put arms in stowed position\nPress enter when done",color="BOLD_CYAN")
-input("")
-dklib.set_servo(vehicle,9,"CLOSE")
-time.sleep(1)
-brint("Stow legs\n Press enter when done",color="BOLD_CYAN",clear=True)
-input("")
-time.sleep(1)
+#
+#  # Stow arms and legs before starting
+#  dklib.set_servo(vehicle,9,"OPEN")
+#  brint("Put arms in stowed position\nPress enter when done",color="BOLD_CYAN")
+#  input("")
+#  dklib.set_servo(vehicle,9,"CLOSE")
+#  time.sleep(1)
+#  brint("Stow legs\n Press enter when done",color="BOLD_CYAN",clear=True)
+#  input("")
+#  time.sleep(1)
 brint("Press enter to initiate drop detection",color="BOLD_CYAN",clear=True)
 input("")
 
