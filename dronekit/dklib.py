@@ -12,6 +12,10 @@ import math
 from pymavlink import mavutil
 
 
+def connect():
+    v = dronekit.connect("/dev/serial0",baud=921600,wait_ready=True)
+    return v
+
 def set_servo(vehicle, servo_number, pwm_value):
     '''
     set_servo turns a servo to the desired position, which is a value between 1000 and 2000
