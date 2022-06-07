@@ -66,10 +66,11 @@ try:
     time.sleep(1)
     dklib.set_servo(vehicle,9,"OPEN")
     imu.write_to_file(acc_data)
-    imu_thread.set()
+    stop_thread.set()
 
     # Close vehicle object
     vehicle.close()
 
 except KeyboardInterrupt:
-    imu_thread.set()
+    stop_thread.set()
+    
