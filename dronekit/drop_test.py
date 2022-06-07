@@ -39,6 +39,8 @@ imu_thread.start()
 
 THRESHOLD = 8.0 
 last_len = 0
+a_mag = 100
+
 while(True):
     # Get acceleration component, msagnitude, and timestep
     if len(acc_data) > last_len:
