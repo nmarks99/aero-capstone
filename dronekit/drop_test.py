@@ -41,30 +41,35 @@ THRESHOLD = 8.0
 last_len = 0
 a_mag = 100
 
-while(True):
-    # Get acceleration component, msagnitude, and timestep
-    if len(acc_data) > last_len:
-        # only update new values for acceleration when they come in
-        ax = round(acc_data[-1][0],3)
-        ay = round(acc_data[-1][1],3)
-        az = round(acc_data[-1][2],3)
-        a_mag = round(acc_data[-1][3],3)
-        t = round(acc_data[-1][4],3)
-        last_len = len(acc_data)
+try:
+    while(True):
+        # Get acceleration component, msagnitude, and timestep
+        if len(acc_data) > last_len:
+            # only update new values for acceleration when they come in
+            ax = round(acc_data[-1][0],3)
+            ay = round(acc_data[-1][1],3)
+            az = round(acc_data[-1][2],3)
+            a_mag = round(acc_data[-1][3],3)
+            t = round(acc_data[-1][4],3)
+            last_len = len(acc_data)
 
-        print("t = {}s\tax = {}\tay = {}\taz = {}\tmag = {}".format(t,ax,ay,az,a_mag))
-    #  time.sleep(0.05) # Can potentially adjust this delay
-     
-    # If threshold for falling is met, deploy arms and break out
-    if a_mag < THRESHOLD:
-        brint("Drop detected!",color="BOLD_YELLOW")
-        dklib.set_servo(vehicle,9, "HIGH")
-        break
+            print("t = {}s\tax = {}\tay = {}\taz = {}\tmag = {}".format(t,ax,ay,az,a_mag))
+        #  time.sleep(0.05) # Can potentially adjust this delay
+         
+        # If threshold for falling is met, deploy arms and break out
+        if a_mag < THRESHOLD:
+            brint("Drop detected!",color="BOLD_YELLOW")
+            dklib.set_servo(vehicle,9, "HIGH")
+            break
 
-# Set servo back to its start 
-time.sleep(1)
-dklib.set_servo(vehicle,9,"OPEN")
-imu.write_to_file(acc_data)
+    # Set servo back to its start 
+    time.sleep(1)
+    dklib.set_servo(vehicle,9,"OPEN")
+    imu.write_to_file(acc_data)
+    imu_thread.set()
 
-# Close vehicle object
-vehicle.close()
+    # Close vehicle object
+    vehicle.close()
+
+except KeyboardInterrupt:
+    imu_thread.set()
