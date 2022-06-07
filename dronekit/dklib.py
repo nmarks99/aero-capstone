@@ -22,7 +22,7 @@ def set_servo(vehicle, servo_number, pwm_value):
         "mid": 1500,
         "high": 2600,
 	"open":1500,
-	"close":1700
+	"close":1750
     } 
 
     if isinstance(pwm_value,str):
