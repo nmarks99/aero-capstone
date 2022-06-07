@@ -37,7 +37,7 @@ imu_thread = threading.Thread(target=imu.imu_thread_func,args=(acc_data,stop_thr
 imu_thread.start()
 
 
-THRESHOLD = 8.0 
+THRESHOLD = 8.8 
 last_len = 0
 a_mag = 100
 
