@@ -1,0 +1,83 @@
+\chapter{Example Chapter Heading}
+\section{Example Section Heading}
+
+
+
+
+\subsection{Example Subsection Heading}
+\blindtext
+\todo{Here is a todo note. Notice how it is included in the todo list at the beginning of the report}
+
+\paragraph{Example Paragraph Heading}
+This is an example of how to include a figure and table reference. Please see Figure \ref{fig:my_label}. Please see Table \ref{table:my_label}. Tables and figures are automatically included in the list of tables and list of figures at the beginning of the report.
+
+
+% Here is how you insert a figure
+% Copy and paste this or start typing \begin{figure} when you want to add a figure
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{PATH-TO-IMAGE}
+    \caption{Example Figure}
+    \label{fig:my_label}
+\end{figure}
+
+
+
+
+% Here is how you make a table 
+% Just copy and paste this if you need to make a table and just it as needed
+\begin{table}[H]
+\centering
+% \footnotesize
+\caption{Example table}
+\label{table:my_label}
+\begin{tabular}{|
+>{\raggedright\arraybackslash}p{.2\textwidth}|
+>{\raggedright\arraybackslash}p{.6\textwidth}|
+}
+    \hline
+     \textbf{One} & hello
+     \\\hline
+     \textbf{Two} & hello
+     \\\hline
+     \textbf{Three} & hello
+     \\\hline
+\end{tabular}
+\end{table}
+
+\section{Here is how you do equations}
+Hello this is some text and I would like to include an equation in-line. You can do this simply by 
+surrounding your equation with dollar signs. $E = mc^2$. If you want it to show on the next free line 
+centered without an equation number you can write it like \[E = mc^2\]. If you want to write a bigger 
+equation and want it to be on it's own, numbered or not, similar to a figure, you can use the following
+\begin{equation}
+    \frac{1}{2} = 0.5
+\end{equation}
+
+
+Please see Equation \ref{pythag} 
+
+\begin{equation}
+    \label{pythag}
+    a^2 + b^2 = c^2
+\end{equation}
+
+
+
+
+
+\section{This is how you do two figures side by side}
+
+\begin{figure}
+    \centering
+    \subfloat{{\includegraphics[width=0.4\textwidth]{PATH-TO-IMAGE} }}%
+    \qquad
+    \subfloat{{\includegraphics[width=0.4\textwidth]{PATH-TO-IMAGE} }}%
+    \caption{Avionics sled}
+    \label{avsled}
+\end{figure}
+
+
+
+
+

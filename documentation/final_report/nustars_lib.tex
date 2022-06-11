@@ -1,0 +1,226 @@
+% -----BEGIN color textboxes-----
+\usepackage{tcolorbox}
+\usepackage{fontawesome}
+\newcommand{\danger}[1]{
+\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=\textbf{\faWarning\ EXTREME WARNING:}]
+#1
+\end{tcolorbox}}
+
+\newcommand{\warn}[1]{
+\begin{tcolorbox}[colback=orange!5!white,colframe=orange!95!black,title=\textbf{\faWarning\ WARNING:}]
+#1
+\end{tcolorbox}}
+
+\newcommand{\caution}[1]{
+\begin{tcolorbox}[colback=yellow!5!white,colframe=yellow!95!black,coltitle=black,title=\textbf{\faWarning\ CAUTION:}]
+#1
+\end{tcolorbox}}
+
+\newcommand{\info}[1]{
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=\textbf{\faInfoCircle\ INFO:}]
+#1
+\end{tcolorbox}}
+% -----END color textboxes-----
+
+% -----BEGIN color scheme-----
+% NU branding; https://www.northwestern.edu/brand/visual-identity/color/index.html for more colors
+\definecolor{nu-purple}{rgb}{0.306, 0.165, 0.518}
+\definecolor{nu-purple-10}{rgb}{0.894, 0.878, 0.933}
+\definecolor{nu-purple-160}{rgb}{0.1137, 0.00784, 0.20784}
+
+% FMEA colors
+\definecolor{fmea-red}{rgb}{1, 0.4, 0.4}
+\definecolor{fmea-yellow}{rgb}{0.96, 0.96, 0.32}
+\definecolor{fmea-green}{rgb}{0.32, 0.96, 0.35}
+
+% -----END color scheme-----
+
+% -----BEGIN NUSTARS environments-----
+\newenvironment{ritemize}{\begin{itemize}[leftmargin=*]\raggedright}{\end{itemize}}
+
+\usepackage{calc}
+% Abstract full-width, equal width columns longtable
+\newcommand{\nustarstable}[5]
+{
+    \begin{center}
+    % TODO: locally redefine itemize->ritemize 
+    % NOTE: the width needs to be less than 0.5 or it will overrun the right margin
+    % TODO: the width needs to be dynamically calculated by the number of columns
+    \begin{longtable}{|*{#1}{>{\raggedright\arraybackslash}m{.465\textwidth}|}}
+    \caption{#4}
+    \label{#5}
+    \\\hline
+    #2 \\\hline
+    \endfirsthead
+    %\bfseries #2 \\\hline % uncomment if we want headers on every page
+    \endhead
+    #3
+    \\\hline
+    \end{longtable}
+    \end{center}
+}
+
+% Table with Requirement | Specification
+% Intended to be used mainly for official NSL requirements
+\newcommand{\requirements}[3]{\nustarstable
+    {2}
+    {\bfseries Requirement & \bfseries Specification}
+    {#1}
+    {#2}
+    {#3}
+}
+
+% Table with Requirement | Justification
+% Intended to be used for PDR only
+\newcommand{\requirementsTeamPDR}[3]{\nustarstable
+    {2}
+    {\bfseries Requirement & \bfseries Justification}
+    {#1}
+    {#2}
+    {#3}
+}
+
+% Table with Requirement | Justification | Verification
+% Intended to be used for PDR only
+\newcommand{\requirementsTeamCDR}[3]{\nustarstable
+    {3}
+    {\bfseries Requirement & \bfseries Justification & \bfseries Verification}
+    {#1}
+    {#2}
+    {#3}
+}
+
+\newcommand{\itemizedBudget}[3]{
+\begin{footnotesize}
+\begin{longtable}{
+|>{\raggedright\arraybackslash}p{.1\textwidth}
+|>{\raggedright\arraybackslash}p{.075\textwidth}
+|>{\raggedright\arraybackslash}p{.15\textwidth}
+|>{\raggedleft\arraybackslash}p{.085\textwidth}
+|>{\raggedleft\arraybackslash}p{.1\textwidth}
+|>{\raggedleft\arraybackslash}p{.175\textwidth}
+|>{\raggedleft\arraybackslash}p{.085\textwidth}
+|>{\raggedleft\arraybackslash}p{.075\textwidth}
+|}
+    \caption{#2}
+    \label{#3}
+    \\\hline 
+        \bfseries{Part} & \bfseries{Quantity} & \bfseries{Description} & \bfseries{Material} & \bfseries{Dimensions} & \bfseries{Part Number} & \bfseries{Supplier} & \bfseries{Cost}\\\endfirsthead
+    \hline 
+    #1
+    \hline
+    \end{longtable}
+    \end{footnotesize}
+    
+}
+
+\newcommand{\challenges}[3]{\nustarstable
+    {2}
+    {\bfseries Challenge & \bfseries Solution}
+    {#1}
+    {#2}
+    {#3}
+}
+
+% FMEA cell codes
+\newcommand{\oneA}{1A\cellcolor{fmea-red}}
+\newcommand{\oneB}{1B\cellcolor{fmea-red}}
+\newcommand{\oneC}{1C\cellcolor{fmea-red}}
+\newcommand{\oneD}{1D\cellcolor{fmea-yellow}}
+\newcommand{\oneE}{1E\cellcolor{fmea-yellow}}
+
+\newcommand{\twoA}{2A\cellcolor{fmea-red}}
+\newcommand{\twoB}{2B\cellcolor{fmea-red}}
+\newcommand{\twoC}{2C\cellcolor{fmea-yellow}}
+\newcommand{\twoD}{2D\cellcolor{fmea-yellow}}
+\newcommand{\twoE}{2E\cellcolor{fmea-green}}
+
+\newcommand{\threeA}{3A\cellcolor{fmea-red}}
+\newcommand{\threeB}{3B\cellcolor{fmea-yellow}}
+\newcommand{\threeC}{3C\cellcolor{fmea-yellow}}
+\newcommand{\threeD}{3D\cellcolor{fmea-green}}
+\newcommand{\threeE}{3E\cellcolor{fmea-green}}
+
+\newcommand{\fourA}{4A\cellcolor{fmea-yellow}}
+\newcommand{\fourB}{4B\cellcolor{fmea-yellow}}
+\newcommand{\fourC}{4C\cellcolor{fmea-green}}
+\newcommand{\fourD}{4D\cellcolor{fmea-green}}
+\newcommand{\fourE}{4E\cellcolor{fmea-green}}
+
+\newcommand{\priskHIGH}{High\cellcolor{fmea-red}}
+\newcommand{\priskMED}{Medium\cellcolor{fmea-yellow}}
+\newcommand{\priskLOW}{Low\cellcolor{fmea-green}}
+
+\newcommand{\risks}[3]{
+\begin{landscape}
+\begin{footnotesize}
+    \begin{longtable}{
+    |>{\raggedright\arraybackslash}p{.15\textwidth}
+    |>{\raggedright\arraybackslash}p{.2\textwidth}
+    |>{\raggedright\arraybackslash}p{.2\textwidth}
+    |>{\raggedright\arraybackslash}p{.09\textwidth}
+    |>{\raggedright\arraybackslash}p{.25\textwidth}
+    |>{\raggedright\arraybackslash}p{.09\textwidth}|}
+    \endfirsthead
+    \caption{#2}
+    \label{#3}
+    \\\hline 
+        Risk & Cause & Effect(s) & Pre-RAC & Mitigation & Post-RAC \\
+    \hline 
+    #1
+    \hline
+    \end{longtable}
+    \end{footnotesize}
+\end{landscape}
+}
+
+\newcommand{\fmea}[3]{
+\begin{landscape}
+\begin{footnotesize}
+    \begin{longtable}{
+    |>{\raggedright\arraybackslash}p{.15\textwidth}
+    |>{\raggedright\arraybackslash}p{.2\textwidth}
+    |>{\raggedright\arraybackslash}p{.2\textwidth}
+    |>{\raggedright\arraybackslash}p{.09\textwidth}
+    |>{\raggedright\arraybackslash}p{.25\textwidth}
+    |>{\raggedright\arraybackslash}p{.09\textwidth}|}
+    \endfirsthead
+    \caption{#2}
+    \label{#3}
+    \\\hline 
+        Failure Mode & Cause & Effect(s) & Pre-RAC & Mitigation & Post-RAC \\
+    \hline 
+    #1
+    \hline
+    \end{longtable}
+    \end{footnotesize}
+\end{landscape}
+}
+
+\newcommand{\projectrisks}[3]{
+\begin{landscape}
+\begin{footnotesize}
+    \begin{longtable}{
+        |>{\raggedright\arraybackslash}p{.2\textwidth}
+        |>{\raggedright\arraybackslash}p{.1\textwidth}
+        |>{\raggedright\arraybackslash}p{.1\textwidth}
+        |>{\raggedright\arraybackslash}p{.275\textwidth}
+        |>{\raggedright\arraybackslash}p{.275\textwidth}
+        |>{\raggedright\arraybackslash}p{.1\textwidth}|}
+    \endfirsthead
+    \caption{#2}
+    \label{#3}
+    \\\hline 
+        Risk & Likelihood & Impact Value & Impact Description & Mitigation Description & Mitigation Impact\\ 
+    \hline 
+    #1
+    \hline
+    \end{longtable}
+    \end{footnotesize}
+\end{landscape}
+}
+
+% -----END NUSTARS environments-----
+
+% Misc
+\newcommand{\email}[1]{\color{nu-purple}\href{mailto:#1}{#1}\color{black}}
