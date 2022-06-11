@@ -38,10 +38,9 @@ def main():
     # Define constants
     DROPPED = False # Flag for if drop has been detected or not
     DROP_THRESHOLD = 8.8 # TODO: update thresholds
-    HOVER_THRESHOLD = 8.8
+    HOVER_THRESHOLD = 9.8
     ARM_SERVO = 9
-    LEG_SERVO = 10 # TODO: check servo number
-    
+
     try:
         
         while True:
@@ -68,16 +67,30 @@ def main():
                     if amag >= DROP_THRESHOLD:
                         DROPPED = True
                         
-                        # Deploy arms
+                        # Deploy arms and legs
                         dklib.set_servo(vehicle, ARM_SERVO, "HIGH")
-    
-                        # Deploy legs
-                        dklib.set_servo(vehicle, LEG_SERVO, "HIGH")
                 
                         brint("",clear=True)
                         print("Dropped = ",end="")
                         brint("True",color="BOLD_GREEN")
                         break
+
+                elif DROPPED:
+
+                    # Set thrust to maximum until hover is reached
+                    while True:
+                        dklib.set_attitude(thrust=1.0)
+                        if abs(amag-HOVER_THRESHOLD) < 0.9*HOVER_THRESHOLD:
+                            brint("Hover Reached!",color="BOLD_GREEN")
+                            break
+                        else:
+                            time.sleep(0.1)
+
+                    # Set vehicle to LAND mode
+                    vehicle.mode = dronekit.VehicleMode("LAND")
+                    time.sleep(10)
+
+
 
                 print(
                     "ax = {:.3f}\tay = {:.3f}\taz = {:.3f}\tamag = {:.3f}\tt = {:.3f} s"
@@ -90,6 +103,7 @@ def main():
         brint("Mission Complete",color="BOLD_GREEN")
         
         # Close vehicle object
+        input("Press enter to close vehicle object")
         vehicle.close()
 
     except KeyboardInterrupt:
