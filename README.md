@@ -1,4 +1,6 @@
 # Rotor Powered Rocket Lander
+## Final Report
+The final report for this project can be found in the documentation folder
 
 ## Goal
 The team will develop a landing system capable of landing a small rocket vertically at a designated target zone, without the use of traditional combustion engines.
